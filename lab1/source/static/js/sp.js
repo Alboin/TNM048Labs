@@ -3,10 +3,14 @@
   Author: Kahin Akram Hassan
 */
 
+//https://bl.ocks.org/EfratVil/d956f19f2e56a05c31fb6583beccfda7
+
 function sp(data){
 
     this.data = data;
     var div = '#scatter-plot';
+
+    //console.log(data[1].Household_income);
 
     var height = 500;
     var parentWidth = $(div).parent().width();
@@ -34,10 +38,6 @@ function sp(data){
     var dataName1 = "Household_income";
     var dataName2 = "Employment_rate";
 
-    var country = [];
-    for(i = 0; i < data.length; i++)
-        country.push(data[i]["Country"]);
-
     var cx_temp = [];
     for(i = 0; i < data.length; i++)
         cx_temp.push(data[i][dataName1]);
@@ -46,22 +46,21 @@ function sp(data){
     for(i = 0; i < data.length; i++)
         cy_temp.push(data[i][dataName2])
 
-    var radius_temp = [];
-    for(i = 0; i < data.length; i++)
-        radius_temp.push(data[i]["Life_satisfaction"]);
 
         
     // Normalize data
-    var cx = [], cy = [], radius = [];
+    var cx = [], cy = [];
     for(i = 0; i < data.length; i++)
     {
         cx.push((cx_temp[i] - Math.min(...cx_temp)) / (Math.max(...cx_temp) - Math.min(...cx_temp)));
         cy.push((cy_temp[i] - Math.min(...cy_temp)) / (Math.max(...cy_temp) - Math.min(...cy_temp)));
-        radius.push((radius_temp[i] - Math.min(...radius_temp)) / (Math.max(...radius_temp) - Math.min(...radius_temp)));
     }
+
+    //Handle Axis
 
     x.domain([Math.min(...cx_temp), Math.max(...cx_temp)]);
     y.domain([Math.min(...cy_temp), Math.max(...cy_temp)]);
+
 
 
     var svg = d3.select(div).append("svg")
@@ -76,75 +75,81 @@ function sp(data){
     
         var yAxis = d3.axisLeft().scale(y);
 
-        svg.append("svg:g")
-        .attr("transform", "translate(0," + height + ")")
-        .call(xAxis);
 
-        svg.append("svg:g")
-        .attr("transform", "translate(0,0)")
-        .call(yAxis);
+        svg.append("g")
+            .attr("class", "x axis")
+            .attr('id', "axis--x")
+            .attr("transform", "translate(0," + height + ")")
+            .call(xAxis);
 
-        // now add titles to the axes
         svg.append("text")
-            .attr("text-anchor", "middle")  // this makes it easy to centre the text as the transform is applied to the anchor
-            .attr("transform", "translate("+ (-30) +","+(height/2)+")rotate(-90)")  // text is drawn off the screen top left, move down and out and rotate
+            .style("text-anchor", "end")
+            .attr("x", width)
+            .attr("y", height - 8)
             .text(dataName2);
 
+        svg.append("g")
+            .attr("class", "y axis")
+            .attr('id', "axis--y")
+            .call(yAxis);
+
         svg.append("text")
-            .attr("text-anchor", "middle")  // this makes it easy to centre the text as the transform is applied to the anchor
-            .attr("transform", "translate("+ (width/2) +","+ (height + 35) +")")  // centre below axis
+            .attr("transform", "rotate(-90)")
+            .attr("y", 6)
+            .attr("dy", "1em")
+            .style("text-anchor", "end")
             .text(dataName1);
-            
+
+
 
         /* ~~ Task 4 Add the scatter dots. ~~ */
-        var circles = [];
-        for(i = 0; i < data.length; i++)
-        {
-            var color = d3.hsl(Math.random() * 80 + 200, 0.5, 0.5);
+        var circles = svg.selectAll(".dot")
+            .data(data)
+            .enter().append("circle")
+            .attr("class", "circle")
+            .attr("r", 4)
+            .attr("cx", function (d) { return x(d[dataName1]); })
+            .attr("cy", function (d) { return y(d[dataName2]); })
+            .attr("opacity", 0.5)
+            .attr("class", "non_brushed")
+            .style("fill", "#4292c6");
 
-            circles.push(svg.append("circle")
-                     .attr("cx", cx[i] * width)
-                     .attr("cy", cy[i] * height)            
-                     .attr("r", radius[i] * 15 + 5)
-                     .attr("fill", color)
-                     .attr("country", country[i])
-                     .on("mouseover", function(d) {		
-                        tooltip.transition()		
-                            .duration(200)		
-                            .style("opacity", .9);		
-                        tooltip.html($(this).attr("country"))
-                            .style("left", (d3.event.pageX - width) + "px")		
-                            .style("top", (d3.event.pageY) + "px")
-                            .style("position", "absolute");
-                        })					
-                    .on("mouseout", function(d) {		
-                        tooltip.transition()		
-                            .duration(500)		
-                            .style("opacity", 0)}));
-        }
+
         
         /* ~~ Task 5 create the brush variable and call highlightBrushedCircles() ~~ */
 
+        var brush = d3.brush()
+                    .on("brush", highlightBrushedCircles);
 
-         //highlightBrushedCircles function
-         function highlightBrushedCircles() {
-             if (d3.event.selection != null) {
-                 // revert circles to initial style
-                 circles.attr("class", "non_brushed");
-                 var brush_coords = d3.brushSelection(this);
-                 // style brushed circles
-                   circles.filter(function (){
-                            var cx = d3.select(this).attr("cx");
-                            var cy = d3.select(this).attr("cy");
-                            return isBrushed(brush_coords, cx, cy);
-                  })
-                  .attr("class", "brushed");
-                   var d_brushed =  d3.selectAll(".brushed").data();
+        svg.append("g")
+            .call(brush);
+
+        //highlightBrushedCircles function
+        function highlightBrushedCircles() {
+            if (d3.event.selection != null) {
+
+                    // revert circles to initial style
+                    circles.attr("class", "non_brushed");
+                    var brush_coords = d3.brushSelection(this);
+                    // style brushed circles
+                    circles.filter(function () {
+                        var cx = d3.select(this).attr("cx");
+                        var cy = d3.select(this).attr("cy");
+                        return isBrushed(brush_coords, cx, cy);
+                    })
+                        .attr("class", "brushed")
+                        .attr("fill", "red");
+
+                    var d_brushed = d3.selectAll(".brushed").data();
+                    
+                    
+
+                    /* ~~~ Call pc or/and map function to filter ~~~ */
+                
 
 
-                   /* ~~~ Call pc or/and map function to filter ~~~ */
-
-             }
+            }
+         
          }//highlightBrushedCircles
          function isBrushed(brush_coords, cx, cy) {
               var x0 = brush_coords[0][0],
@@ -157,7 +162,7 @@ function sp(data){
 
 
          //Select all the dots filtered
-         this.selecDots = function(value){
+         this.selectDots = function(value){
 
          };
 

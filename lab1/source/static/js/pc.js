@@ -41,11 +41,20 @@ function pc(data){
 
   /* ~~ Task 6 Scale the x axis ~~*/
 
+  var dimension_names = [];
+  for (var i = 0; i < dimensions.length; i++)
+  {
+      dimension_names.push(dimensions[i].name);
+  }
+  
+  var x = d3.scaleBand().range([0, width]).domain(dimensions.map(function (d) { return d.name; }));
+
+
 
   /* ~~ Task 7 Add the x axes ~~*/
-  var axes = svg.selectAll(".axes");
-  // add code here..
-
+  var axes = svg.selectAll(".axes").data(dimensions)
+      .enter().append("g").attr("class", "dimension").attr('transform',
+      function (d) { return "translate(" + x(d.name) + ")"; });
 
 
         axes.append("g")
@@ -61,23 +70,37 @@ function pc(data){
 
 
     //Task 8 initialize color scale
-    var cc = [];
-
+        var cc = [];
+        var color = d3.scaleOrdinal(d3.schemeCategory20);
+        for (var i = 0; i < data.length; i++)
+        {
+            cc.push(color(i));
+        }
+        console.log(cc)
 
     var background = svg.append("g")
        .attr("class", "background")
        .selectAll("path")
        .data(data)
        .enter().append("path")
-       //.attr("d", draw); // Uncomment when x axis is implemented
+       .attr("d", draw); // Uncomment when x axis is implemented
 
+
+    console.log(data)
     var foreground = svg.append("g")
-       .attr("class", "foreground")
-       .selectAll("path")
-       .data(data)
-       .enter().append("path")
-       //.attr("d", draw) // Uncomment when x axis is implemented
-
+        .attr("class", "foreground")
+        .selectAll("path")
+        .data(data)
+        .enter().append("path")
+        .attr("d", draw) // Uncomment when x axis is implemented
+        .style("fill", cc);/*function (d) {
+            for (var i = 0; i < data.length; i++)
+            {
+                console.log( d.name)
+                if (data[i]["Country"] == d.name)
+                    return cc[i];
+            }
+        });*/
        //Add color here
 
     /* ~~ Task 9 Add and store a brush for each axis. ~~*/
