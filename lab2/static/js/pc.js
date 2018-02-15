@@ -5,7 +5,7 @@
 function pc(data1,data2,data3){
 
   //Chage data set
-  var data = data1;
+  var data = data2;
 
   var div = '#pc-chart';
 
@@ -45,6 +45,14 @@ function pc(data1,data2,data3){
 
    draw(kmeansRes);
 
+   /*svg.on("click", function () {
+       svg.selectAll("foreground").remove();
+       console.log("hej")
+       kmeansRes = kmeans(data, k, kmeansRes.assignments, kmeansRes.centroids);
+       draw(kmeansRes);
+   })*/
+
+
    function draw(kmeansRes){
 
      // Add grey background lines for context.
@@ -62,8 +70,8 @@ function pc(data1,data2,data3){
          .data(data)
          .enter().append("path")
          .attr("d", path)
-         .style("stroke", function(d) { return "hsl(" + Math.random() * 360 + ",100%,50%)"; });
-         //.style("stroke", function(d, i) { return colors[kmeansRes.assignments[i]]; });
+         //.style("stroke", function(d) { return "hsl(" + Math.random() * 360 + ",100%,50%)"; });
+         .style("stroke", function(d, i) { return colors[kmeansRes.assignments[i]]; });
 
 
      // Add a group element for each dimension.
