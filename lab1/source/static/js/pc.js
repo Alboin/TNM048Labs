@@ -185,13 +185,13 @@ function pc(data){
 
       var actives = [];
       svg.selectAll(".dimension .brush")
-      .filter(function(d) {
+        .filter(function(d) {
         return d3.brushSelection(this);
-      })
-      .each(function(d) {
-        actives.push({
-          dim: d,
-          extent: d3.brushSelection(this)
+        })
+        .each(function(d) {
+              actives.push({
+              dim: d,
+              extent: d3.brushSelection(this)
         });
       });
 
@@ -220,6 +220,7 @@ function pc(data){
     //Select all the foregrounds send in the function as value
     this.selectLine = function(value){
        /* ~~ Select the lines ~~*/
+       foreground.style("display", function (d) { return d["Country"] === value.properties.name ? null : "none"; });
     };
 
     function axesDims(height){

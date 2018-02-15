@@ -162,8 +162,15 @@ function sp(data){
 
 
          //Select all the dots filtered
-         this.selectDots = function(value){
+         this.selectDots = function (value) {
+             circles.attr("class", "non_brushed");
 
+             circles.filter(function (d) {
+                 //console.log(d.Country)
+                 //console.log(value.properties.name )
+                 return value.properties.name == d.Country; 
+             }).attr("class", "brushed")
+                 .attr("fill", "red");
          };
 
 

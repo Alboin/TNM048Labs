@@ -95,8 +95,8 @@ function map(data, world_map_json){
       //selection
       .on("click", function (d) {
 
-
-          console.log(temp)
+          sp.selectDots(d);
+          pc.selectLine(d);
           //selectCountry(d.properties.name);
           /*~~ call the other graphs method for selection here ~~*/
       });
