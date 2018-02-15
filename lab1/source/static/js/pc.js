@@ -76,39 +76,54 @@ function pc(data){
         {
             cc.push(color(i));
         }
-        console.log(cc)
 
     var background = svg.append("g")
        .attr("class", "background")
        .selectAll("path")
        .data(data)
        .enter().append("path")
-       .attr("d", draw); // Uncomment when x axis is implemented
+            .attr("d", draw); // Uncomment when x axis is implemented
 
 
-    console.log(data)
+
+    //console.log(data)
     var foreground = svg.append("g")
         .attr("class", "foreground")
         .selectAll("path")
         .data(data)
         .enter().append("path")
         .attr("d", draw) // Uncomment when x axis is implemented
-        .style("fill", cc);/*function (d) {
+        .style("stroke", function (d) {
             for (var i = 0; i < data.length; i++)
             {
-                console.log( d.name)
-                if (data[i]["Country"] == d.name)
+                if (data[i]["Country"] == d.Country)
                     return cc[i];
             }
-        });*/
+        });
        //Add color here
 
+
+
+
     /* ~~ Task 9 Add and store a brush for each axis. ~~*/
+    //var brushY = d3.brush()
+      //  .on("brush", console.log("hej"));
+
+    //var brushY = svg.append("g")
+     //   .attr("class", "brush")
+      //  .call(d3.brushY().on("brush", console.log("ost")));
+
+
     axes.append("g")
         .attr("class", "brush")
-
-        /* ~~ Add brush here */
-
+        .each(function (d) {
+            d3.select(this).call(
+                d.brush = d3.brushY()
+                    .extent([[-10, 0], [10, height]])
+                    .on("start", brushstart)
+                    .on("brush", brush)
+                    .on("end", brush));
+        })
         .selectAll("rect")
         .attr("x", -10)
         .attr("width", 20);

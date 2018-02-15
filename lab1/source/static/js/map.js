@@ -33,25 +33,44 @@ function map(data, world_map_json){
       .attr("height", height)
       .call(zoom);
 
+  var projection = d3.geoMercator().center([60,40]).scale(120);
+
+  var path = d3.geoPath().projection(projection);
+
   var g = svg.append("g");
+
+
 
 
   var countries = topojson.feature(world_map_json,
         world_map_json.objects.countries).features;
 
-  var country = g.selectAll(".country").data(countries);
+  var country = g.selectAll(".country")
+      .data(countries);
 
   /*~~ Task 12  initialize color array ~~*/
   var cc = [];
+  var color = d3.scaleOrdinal(d3.schemeCategory20);
+  for (var i = 0; i < data.length; i++) {
+      cc.push(color(i));
+  }
 
   country.enter().insert("path")
       .attr("class", "country")
+      .attr("d", path)
 
-        /*~~ Task 11  add path variable as attr d here. ~~*/
+      /*~~ Task 11  add path variable as attr d here. ~~*/
 
-      .attr("id", function(d) { return d.id; })
-      .attr("title", function(d) { return d.properties.name; })
-      .style("fill", function(d) { return cc[d.properties.name]; })
+      .attr("id", function (d) { return d.id; })
+      .attr("title", function (d) {  return d.properties.name; })
+      .style("fill", function (d) {
+          for (var i = 0; i < data.length; i++) {
+              if (data[i]["Country"] == d.properties.name)
+              {
+                  return cc[i];
+              }
+          }
+       })
 
       //tooltip
       .on("mousemove", function(d) {
@@ -74,7 +93,11 @@ function map(data, world_map_json){
       })
 
       //selection
-      .on("click",  function(d) {
+      .on("click", function (d) {
+
+
+          console.log(temp)
+          //selectCountry(d.properties.name);
           /*~~ call the other graphs method for selection here ~~*/
       });
 
@@ -83,9 +106,12 @@ function map(data, world_map_json){
       g.attr("transform", d3.event.transform);
   }
 
-    /*~~ Highlight countries when filtering in the other graphs~~*/
-  this.selectCountry = function(value){
+
+  /*~~ Highlight countries when filtering in the other graphs~~*/
+  this.selectCountry = function (value) {
+      console.log(value)
 
   }
+
 
 }
