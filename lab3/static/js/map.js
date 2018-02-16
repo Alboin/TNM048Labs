@@ -3,7 +3,8 @@
   Date: Jan 31 2018
 */
 
-function map(data, world_map_json){
+function map(data, world_map_json) {
+
 
   var div = '#map';
   var parentWidth = $(div).parent().width();
@@ -57,8 +58,16 @@ function map(data, world_map_json){
   draw(countries);
   drawPoints()
 
+
   function draw(countries){
     //Add code here.
+    countries.enter()
+    .insert("path")
+    .attr("class", "country")
+    .attr("d", path)
+    .attr("id", function(d) { return d.id; })
+    .attr("title", function(d) { return d.properties.name; })
+    .style("fill", function(d) { return d.properties.color; });
   }
 
   //Formats the data in a feature collection
@@ -66,11 +75,34 @@ function map(data, world_map_json){
       var data = [];
 
       array.map(function (d, i) {
+        // i = data index/id
+        // d = data
+
+        //console.log(d)
+
+        var geometry = {
+          "type": "Point",
+          "coordinates": [d.lat, d.lon]
+        };
+
+        var geoPoint = {
+          "id": i,
+          "mag": d.mag,
+          "geometry": geometry
+        };
+
+        //Create five variables called :
+        //id,type,geometry,mag and place and assign the corresponding value to it
+        //geometry is an object and has two other attributes called coordinates and type.
           data.push({
-            //Create five variables called :
-            //id,type,geometry,mag and place and assign the corresponding value to is
-            //geometry is an object and has two other attributes called coordinates and type.
+            id: i,
+            mag: d.mag,
+            geometry:  {
+              type: "Point",
+              coordinates: [d.lat, d.lon]
+            }
           });
+
       });
       return data;
   }
