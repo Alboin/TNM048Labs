@@ -67,7 +67,7 @@ function map(data, world_map_json) {
     .attr("d", path)
     .attr("id", function(d) { return d.id; })
     .attr("title", function(d) { return d.properties.name; })
-    .style("fill", function(d) { return d.properties.color; });
+    .style("fill", "lightgray");//function(d) { return d.properties.color; });
   }
 
   //Formats the data in a feature collection
@@ -79,6 +79,7 @@ function map(data, world_map_json) {
         // d = data
 
         //console.log(d)
+        //FRÅGA
 
         var geometry = {
           "type": "Point",
@@ -95,12 +96,14 @@ function map(data, world_map_json) {
         //id,type,geometry,mag and place and assign the corresponding value to it
         //geometry is an object and has two other attributes called coordinates and type.
           data.push({
+            type: "Feature",
             id: i,
             mag: d.mag,
             geometry:  {
               type: "Point",
-              coordinates: [d.lat, d.lon]
-            }
+              coordinates: [d.lon, d.lat]
+            },
+            place: d.place
           });
 
       });
