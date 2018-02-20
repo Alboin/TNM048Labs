@@ -185,20 +185,23 @@ function map(data, world_map_json) {
   //Calls k-means function and changes the color of the points
   this.cluster = function () {
       //Get the value from the input form in index
-      //var k =
+      var k = Number($("#k")[0].value);
+
 
       //Call the kmeansRes on the filterdData with k clusters.
-      //var kmeansRes =
+      console.log(filterdData)
+      var kmeansRes = kmeans(filterdData,k);
+      console.log("hje")
 
       d3.selectAll(".point").data(data)
           //Change style fill if id == in filterdData id
               .style("fill", function (d) {
                   for (var j = 0; j < filterdData.length; j++)
                   {
-                      /*if () {
+                      if (id == filterdData[i].id) {
                           //return colors for each assignment j
-                          return
-                      }*/
+                          return colors[kmeansRes.assignments[j]];
+                      }
                   }
 
               });

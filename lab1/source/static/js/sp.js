@@ -47,7 +47,7 @@ function sp(data){
         cy_temp.push(data[i][dataName2])
 
 
-        
+
     // Normalize data
     var cx = [], cy = [];
     for(i = 0; i < data.length; i++)
@@ -68,11 +68,11 @@ function sp(data){
         .attr("height", height + margin.top + margin.bottom)
         .append("g")
         .attr("transform","translate(" + margin.left + "," + margin.top + ")");
-        
+
         /* ~~ Task 3 Add the x and y Axis and title  ~~ */
 
         var xAxis = d3.axisBottom().scale(x);
-    
+
         var yAxis = d3.axisLeft().scale(y);
 
 
@@ -112,10 +112,10 @@ function sp(data){
             .attr("cy", function (d) { return y(d[dataName2]); })
             .attr("opacity", 0.5)
             .attr("class", "non_brushed")
-            .style("fill", "#4292c6");
+            .style("fill", function (d) { return color(d["Country"]); });
 
 
-        
+
         /* ~~ Task 5 create the brush variable and call highlightBrushedCircles() ~~ */
 
         var brush = d3.brush()
@@ -141,15 +141,15 @@ function sp(data){
                         .attr("fill", "red");
 
                     var d_brushed = d3.selectAll(".brushed").data();
-                    
-                    
+
+
 
                     /* ~~~ Call pc or/and map function to filter ~~~ */
-                
+
 
 
             }
-         
+
          }//highlightBrushedCircles
          function isBrushed(brush_coords, cx, cy) {
               var x0 = brush_coords[0][0],
@@ -168,7 +168,7 @@ function sp(data){
              circles.filter(function (d) {
                  //console.log(d.Country)
                  //console.log(value.properties.name )
-                 return value.properties.name == d.Country; 
+                 return value.properties.name == d.Country;
              }).attr("class", "brushed")
                  .attr("fill", "red");
          };
