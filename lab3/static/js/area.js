@@ -139,6 +139,8 @@ function brush() {
   focus.select(".area").attr("d", area);
   focus.select(".axis--x").call(xAxis);
 
+  map1.filterTime(x.domain());
+
   //Call the filterTime function in map
 
 }
