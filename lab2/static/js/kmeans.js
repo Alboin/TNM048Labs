@@ -5,135 +5,78 @@
 * @return {Object}
 */
 
+
 function kmeans(data, k) {
 
-  // Reformat data
-  newData = [];
-  for (sample in data)
-  {
-    var newSample = [];
-    for (dimension in data[sample])
-      newSample.push(Number(data[sample][dimension]));
-
-    newData.push(newSample);
-  }
-  newData.splice(newData.length - 1, 1);
-
-  // Create centroids
+  // Create a set of centroids with random starting positions.
   var centroids = [];
-  for (var i = 0; i < k; i++)
-  {
-      var c = newData[Math.floor((Math.random() * data.length) + 1)];
-      centroids.push(c);
-  }
+  for(var i = 0; i < k; i++)
+    centroids.push(data[Math.floor(Math.random() * data.length)]);
+
+  assignments = assignToCentroid(data, centroids);
+  centroids = moveCentroids(data, assignments, centroids);
 
 
-
-
-  var assignments = assignToCentroid(newData, centroids);
-
-  var centroidsUpdated = moveCentroids(newData, assignments, centroids);
-
-  var error1 = calculateError(newData, assignments, centroids);
-  var error2 = calculateError(newData, assignments, centroidsUpdated);
-
-  //console.log(error1)
-  //console.log(newCentroids)
-
-  var result = { "assignments": assignments, "centroids": centroids };
-  return result;
-
+  return {"assignments": assignments}
 }
 
-function assignToCentroid(newData, theCentroids)
+
+// Assign each data-sample to closest centroid.
+function assignToCentroid(data, centroids)
 {
   var assignments = [];
 
-  for (sample in newData)
+  for (sample in data)
   {
-    var minDist = [999999, -1]; // [distance, centroid index]
-    for(centroid in theCentroids)
+    var minDist = [999999, -1];
+    for (centroid in centroids)
     {
-      var dist = 0;
-      for (dimension in newData[sample])
-        dist += Math.pow(newData[sample][dimension] - theCentroids[centroid][dimension], 2);
-
-      dist = Math.sqrt(dist);
-
-      if(dist < minDist[0])
-      {
-        minDist[0] = dist;
-        minDist[1] = (centroid);
-      }
+      var distance = euclidianDistance(data[sample], centroids[centroid]);
+      if (distance < minDist[0])
+        minDist = [distance, centroid];
     }
-    // Add the centroid index
-    assignments.push(minDist[1]);
+    assignments.push(Number(minDist[1]));
   }
+  assignments.splice(assignments.length - 1, 1);
+
   return assignments;
 }
 
-function moveCentroids(newData, assignments, theCentroids)
+function moveCentroids(data, assignments, centroids)
 {
+  // Create a new centroid variable with all 0's
+  var newCentroids = centroids;
+  for (centroid in newCentroids)
+    for (dim in newCentroids[centroid])
+      newCentroids[centroid][dim] = 0;
 
-  var numberOfSamplesPerCentroid = [];
-  var newCentroids =  [];//jQuery.extend(true, {}, theCentroids);
-  console.log(theCentroids)
+  // Variable for counting the number of samples assigned to each centroid.
+  var numberOfSamplesPerCentroid = newCentroids;
   console.log(newCentroids)
 
-  // Initiate newCentroids with 0's
-  for (var i = 0; i < 4; i++)
+  // Add up the positions of all the assigned samples for each centroid.
+  for (sample in data)
   {
-    numberOfSamplesPerCentroid.push(0);
-    for (var dim = 0; dim <3; dim++)
-    {
-      newCentroids[i][dim] = 0;
-        console.log(newCentroids[i][dim])
-    }
+    if(!isNaN(sample))
+      for (dim in newCentroids[0])
+      {
+        newCentroids[assignments[sample]][dim] += Number(data[sample][dim]);
+        numberOfSamplesPerCentroid[assignments[sample]][0]++;
+      }
   }
 
-
-
+console.log(numberOfSamplesPerCentroid)
+  //for (centroid in newCentroids)
+  //  for()
   console.log(newCentroids)
-
-  // Count number of samples assigned to each centroid
-  for (sample in newData)
-  {
-    numberOfSamplesPerCentroid[assignments[sample]]++;
-    // Calculate distance to assigned centroid
-    for (dimension in newData[sample])
-      newCentroids[assignments[sample]][dimension] += newData[sample][dimension];
-  }
-
-  // Divide by the number of samples in each centroid
-  for(centroid in newCentroids)
-  {
-    if(numberOfSamplesPerCentroid[centroid] != 0)
-      for (dimension in newCentroids)
-        newCentroids[centroid][dimension] /= numberOfSamplesPerCentroid[centroid];
-  }
-
-  return newCentroids;
 }
 
-function calculateError(newData, assignments, theCentroids)
-{
-  var error = 0;
-  for (sample in newData)
-      error += Math.pow(euclidianDistance(theCentroids[assignments[sample]], newData[sample]), 2);
-
-  return error;
-}
-
+// Calculate the euclidian distance between two data samples.
 function euclidianDistance(sample1, sample2)
 {
   var dist = 0;
-  for(dimension in sample1)
-    dist += Math.pow(sample1[dimension] - sample2[dimension], 2);
+  for (dim in sample1)
+    dist += Math.pow(sample1[dim] - sample2[dim], 2);
   dist = Math.sqrt(dist);
   return dist;
 }
-
-
-
-
-//nej!
