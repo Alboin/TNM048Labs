@@ -45,30 +45,42 @@ function assignToCentroid(data, centroids)
 function moveCentroids(data, assignments, centroids)
 {
   // Create a new centroid variable with all 0's
-  var newCentroids = centroids;
-  for (centroid in newCentroids)
-    for (dim in newCentroids[centroid])
-      newCentroids[centroid][dim] = 0;
+  console.log(centroids);
+  var newCentroids = jQuery.extend(true, {}, centroids);
+  var tCentroids = [];
+  for (var centroid in newCentroids)
+  {
+    for (var dim in newCentroids[centroid])
+    {
+      newCentroids[centroid]["" + dim + ""] = 0.;
 
+    }
+    tCentroids.push(newCentroids[centroid]);
+
+  }
+      //newCentroids
   // Variable for counting the number of samples assigned to each centroid.
-  var numberOfSamplesPerCentroid = newCentroids;
-  console.log(newCentroids)
+  //var numberOfSamplesPerCentroid = newCentroids;
+  console.log(newCentroids);
+  console.log(centroids);
+  console.log(tCentroids);
 
   // Add up the positions of all the assigned samples for each centroid.
-  for (sample in data)
+  for (var sample in data)
   {
     if(!isNaN(sample))
-      for (dim in newCentroids[0])
+      for (var dim in newCentroids[0])
       {
         newCentroids[assignments[sample]][dim] += Number(data[sample][dim]);
         numberOfSamplesPerCentroid[assignments[sample]][0]++;
       }
   }
 
-console.log(numberOfSamplesPerCentroid)
+//console.log(numberOfSamplesPerCentroid)
   //for (centroid in newCentroids)
   //  for()
-  console.log(newCentroids)
+  //console.log(newCentroids)
+  return newCentroids;
 }
 
 // Calculate the euclidian distance between two data samples.
