@@ -1,0 +1,38 @@
+Filip
+
+Mätvärden:
+a)
+1 click
+5 sec
+
+b)
+Många klick, hur får man bort urvalet, uppdatera sidan. Axeln är åt fel håll så lite förvirrande. Hittade rätt tillslut.
+
+56 sec
+
+c)
+5 click kanske. Mycket zoom in och ut med musplatta på kartan
+11 sec
+
+d)
+typ 10 click
+40 sec
+
+e)
+2 click
+11 sec
+
+Tänka högt:
+a) "Ganska tydligt", om det är ett land man inte vet vart det är kan det vara svårare att hitta i kartan, en lista någonstans hade hjälpt.
+
+b) Axeln är kontraintuitiv, valde den med lägst till en början. Konstigt att man måste ladda om sidan för att nollställa sitt urval.
+
+c) Ha någon färgkarta över vad färgerna betyder, och kanske ha någon annan färg än svart för avsaknad av data, typ någon halvtransparant färg, inte lika intensiv.
+
+d) Tooltip till SC vore bra. När man markerar något i kartan är det inte jättetydligt att det också markeras i SC. Kanske ha någon indikation även när man bara hovrar.
+
+e) Återigen det med att om man inte vet vart landet ligger så kan det vara svårt.
+
+
+
+

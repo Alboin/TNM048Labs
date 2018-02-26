@@ -60,11 +60,29 @@ function moveCentroids(data, assignments, centroids)
   }
       //newCentroids
   // Variable for counting the number of samples assigned to each centroid.
-  //var numberOfSamplesPerCentroid = newCentroids;
-  console.log(newCentroids);
-  console.log(centroids);
-  console.log(tCentroids);
+  var numberOfSamplesPerCentroid = jQuery.extend(true, {}, newCentroids);
 
+  var t1 = jQuery.extend(true, {}, newCentroids);
+  var t2 = jQuery.extend(true, {}, centroids);
+  var t3 = jQuery.extend(true, {}, tCentroids);
+
+  /*console.log(t1);
+  console.log(t2);
+  console.log(t3);
+  console.log(newCentroids);
+*/
+  log(centroids, -2);
+  log(tCentroids, -1);
+  log(numberOfSamplesPerCentroid, 0);
+
+  /*console.log(JSON.stringify(newCentroids));
+  console.log(JSON.stringify(centroids));
+  console.log(JSON.stringify(tCentroids));
+
+  console.dir(newCentroids);
+  console.dir(centroids);
+  console.dir(tCentroids);*/
+  log(newCentroids, 1);
   // Add up the positions of all the assigned samples for each centroid.
   for (var sample in data)
   {
@@ -75,6 +93,8 @@ function moveCentroids(data, assignments, centroids)
         numberOfSamplesPerCentroid[assignments[sample]][0]++;
       }
   }
+  log(numberOfSamplesPerCentroid, 1.5);
+  log(newCentroids, 2);
 
 //console.log(numberOfSamplesPerCentroid)
   //for (centroid in newCentroids)
@@ -91,4 +111,15 @@ function euclidianDistance(sample1, sample2)
     dist += Math.pow(sample1[dim] - sample2[dim], 2);
   dist = Math.sqrt(dist);
   return dist;
+}
+
+// Since the console.log-function executes asynchroniously we wrote an own log-function to fix this.
+function log(input, row)
+{
+  var temp = input;
+  if(typeof(input) == "object")
+    temp = jQuery.extend(true, {}, input);
+  if(row != undefined)
+    console.log("Print no " + row + ":");
+  console.log(temp);
 }
