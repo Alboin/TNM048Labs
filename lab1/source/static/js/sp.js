@@ -86,7 +86,7 @@ function sp(data){
             .style("text-anchor", "end")
             .attr("x", width)
             .attr("y", height - 8)
-            .text(dataName2);
+            .text(dataName1);
 
         svg.append("g")
             .attr("class", "y axis")
@@ -98,7 +98,7 @@ function sp(data){
             .attr("y", 6)
             .attr("dy", "1em")
             .style("text-anchor", "end")
-            .text(dataName1);
+            .text(dataName2);
 
 
 
