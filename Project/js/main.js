@@ -17,8 +17,6 @@ function draw(error, data_c, data_m){
 }
     var div = '#pie-chart';
 
-    console.log($(div).parent().width())
-
     var width = 500,//$(div).parent().width(),
     height = 400,//$(div).parent().width(),
     maxRadius = 200,
@@ -56,7 +54,6 @@ function draw(error, data_c, data_m){
         })
         .padRadius(30);
 
-        console.log(arc);
     var pie = d3.layout.pie()           //this will create arc data for us given a list of values
         .value(function(d) { return 100; });    //return the val controlling the arc angle
 
