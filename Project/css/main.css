@@ -93,3 +93,11 @@ div.tooltip {
       text-shadow: 0 1px 0 #fff, 1px 0 0 #fff, 0 -1px 0 #fff, -1px 0 0 #fff;
       cursor: move;
       }
+
+
+path:hover {
+  stroke: #ccc;
+  stroke-width: 2.5px;
+  transition: fill 250ms linear;
+  transition-delay: 250ms;
+}
