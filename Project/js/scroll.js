@@ -14,16 +14,16 @@ function scroll(data)
     var div = '#lists';
 
     var scrollList = $(".scroll-menu");
-    					
+
    //populate the scroll list
 
    for(sample in data)
    {
-   		
+
    		console.log(data[sample].category);
    		var htmlstring = '<a href= "#">' + data[sample].category + "</a>";
 
-   		//create 
+   		//create
    		scrollList.append(htmlstring);
    }
 
