@@ -1,17 +1,10 @@
-function scatterplot(data, selectedX, selectedY, dataTransparent)
+function scatterplot(data, selectedX, selectedY, dataTransparent, allData)
 {
-  // Format data so that numbers are numbers and not strings.
-  for(sample in data)
-    for(point in data[sample])
-      if(!isNaN(Number(data[sample][point])))
-        data[sample][point] = Number(data[sample][point]);
 
   if(dataTransparent == undefined)
     dataTransparent = [];
 
   var div = '#scatter-plot';
-
-  console.log(data)
 
   //The base-code for the scatterplot is from
   //http://bl.ocks.org/weiglemc/6185069
@@ -70,8 +63,8 @@ function scatterplot(data, selectedX, selectedY, dataTransparent)
 
 
     // don't want dots overlapping axis, so add in buffer to data domain
-    xScale.domain([d3.min(data, xValue)-1, d3.max(data, xValue)+1]);
-    yScale.domain([d3.min(data, yValue)-1, d3.max(data, yValue)+1]);
+    xScale.domain([d3.min(allData, xValue)-1, d3.max(allData, xValue)+1]);
+    yScale.domain([d3.min(allData, yValue)-1, d3.max(allData, yValue)+1]);
 
     // Make sure the axes have the right label depending on plotted data.
     var xAxisLabel, yAxisLabel;
@@ -151,7 +144,7 @@ function scatterplot(data, selectedX, selectedY, dataTransparent)
          .attr("cx", xMap)
          .attr("cy", yMap)
          .style("fill", function(d) { return color(cValue(d));})
-         .attr("opacity", 0.1)
+         .attr("opacity", 0.4)
          .on("mouseover", function(d) {
              tooltip.transition()
                   .duration(50)

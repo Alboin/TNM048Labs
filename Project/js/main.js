@@ -15,6 +15,13 @@ var scroll;
 
 function draw(error, data_c, data_m){
   if (error) throw error;
+
+  // Format data so that numbers are numbers and not strings.
+  for(sample in data_c)
+    for(point in data_c[sample])
+      if(!isNaN(Number(data_c[sample][point])))
+        data_c[sample][point] = Number(data_c[sample][point]);
+
   // This function creates the scatterplot with the user-defined data.
   updateScatterplot();
 
@@ -28,10 +35,24 @@ function draw(error, data_c, data_m){
   $("#Ycontrols").children().on("click", updateScatterplot);
 
   // Set up the elements in the scroll-list to update the scatterplot on click.
-  $(".scroll-menu").children().on("click", updateScatterplot);
+  $(".scroll-menu").children().on("click", function(d)
+  {
+    // Switch class between selected/unselected.
+    if($(this).attr("class") == "selected")
+      $(this).removeClass("selected").attr("class", "unselected");
+    else
+      $(this).removeClass("unselected").attr("class", "selected");
+
+    // Add a class to tell that this item just changed.
+    $(this).attr("status", "justChanged");
+
+    updateScatterplot();
+  });
 
   function updateScatterplot()
   {
+    var dataFiltered = filterData(data_c);
+    
     // Remove any old scatterplot before creating a new one.
     sp = undefined;
     $("#scatter-plot").children().remove();
@@ -39,7 +60,7 @@ function draw(error, data_c, data_m){
     var selectedX = $('input[name=x-scale]:checked').val();
     var selectedY = $('input[name=y-scale]:checked').val();
     // Create the scatterplot.
-    sp = new scatterplot(data_c, selectedX, selectedY);
+    sp = new scatterplot(dataFiltered[0], selectedX, selectedY, dataFiltered[1], data_c);
   }
 
 

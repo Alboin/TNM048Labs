@@ -19,9 +19,7 @@ function scroll(data)
 
    for(sample in data)
    {
-
-   		console.log(data[sample].category);
-   		var htmlstring = '<a href= "#">' + data[sample].category + "</a>";
+   		var htmlstring = '<a href="#" class="unselected">' + data[sample].category + "</a>";
 
    		//create
    		scrollList.append(htmlstring);
