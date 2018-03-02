@@ -12,8 +12,9 @@ function piechart(data)
     var width = 600,                        
     height = 600,                            
     maxRadius = 200,
-    minRadius = 100,    
-    color = d3.scale.category20c();     //builtin range of colors
+    minRadius = 50,
+    sliceScale = 300;
+
 
     var div = '#pie-chart';
     
@@ -30,14 +31,14 @@ function piechart(data)
         //.outerRadius(maxRadius)
         .outerRadius(function(d) { 
         	
-        	var radius = minRadius + d.data.success/(d.data.failed+d.data.success) * 100;
+        	var radius = minRadius + d.data.success/(d.data.failed+d.data.success) * sliceScale;
 
         	return radius ; 
         })
-        .padRadius(30);
+        ;
 
     var pie = d3.layout.pie()           //this will create arc data for us given a list of values
-        .value(function(d) { return 100; });    //return the val controlling the arc angle
+        .value(function(d) { return 1; });    //return the val controlling the arc angle
 
     var arcs = vis.selectAll("g.slice")     //this selects all <g> elements with class slice (there aren't any yet)
         .data(pie)                          //associate the generated pie data (an array of arcs, each having startAngle, endAngle and value properties) 
@@ -46,7 +47,7 @@ function piechart(data)
                 .attr("class", "slice");    //allow us to style things in the slices (like text)
 
         arcs.append("svg:path")
-                .attr("fill", function(d, i) { return color(i); } ) //set the color for each slice to be chosen from the color function defined above
+                .attr("fill", function(d, i) { return colorMonth(i); } ) //set the color for each slice to be chosen from the color function defined above
                 .attr("d", arc);
                                    //this creates the actual SVG path using the associated data (pie) with the arc drawing function
 
@@ -58,7 +59,9 @@ function piechart(data)
                 return "translate(" + arc.centroid(d) + ")";        //this gives us a pair of coordinates like [50, 50]
             })
             .attr("text-anchor", "middle")                          //center the text on it's origin
-            .text(function(d, i) { return data[i].month; });        //get the label from our original data array
+            .text(function(d, i) { 
+                                var percent = Math.round(100 * d.data.success / (d.data.success + d.data.failed)); // NEW
+                                return data[i].month  ; });        //get the label from our original data array
 		
 
 
@@ -66,25 +69,52 @@ function piechart(data)
 
         var tooltip = d3.select("body").append("div")
 		    .attr("class", "tooltip")
-		    .style("width", 100)
-		    .style("height", 18)
 		    .style("opacity", 0);
+        
+        tooltip.append('div')                                           
+                 .attr('class', 'label');
+        tooltip.append('div')                                           
+                .attr('class', 'succeeded'); 
+        tooltip.append('div')                                           
+                 .attr('class', 'failed'); 
+
 
 
           // apply the tooltip 
-          arcs.on("mouseover", function(d) {		
+        arcs.on("mouseover", function(d) {		
 		        tooltip.transition()		
 		            .duration(200)		
-		            .style("opacity", .9);		
-		        tooltip.html(
-		        	d.data.success
-		        	)
-		            .style("left", d3.event.pageX +"px")
-		            .style("top", d3.event.pageY +"px");
+		            .style("opacity", .9);
+                
+                var percent = Math.round(100 * d.data.success / (d.data.success + d.data.failed)); 
+
+                tooltip.select('.label').html(d.data.month);                
+                tooltip.select('.succeeded').html("succeded: " + d.data.success);                
+                tooltip.select('.failed').html("failed: " + d.data.failed); 
+    		    tooltip.style("left", d3.event.pageX +"px")
+    		            .style("top", d3.event.pageY +"px");
 		        })					
     		.on("mouseout", function(d) {		
 	        		tooltip.transition()		
 	            	.duration(500)		
 	            	.style("opacity", 0)});                        
 	
+}
+
+
+
+function colorMonth(factor)
+{
+    
+    var myColor;
+
+    if(factor <= 8){
+        myColor = d3.rgb(20+10*factor,20+10*factor,60+10*factor);
+    }
+    else {
+        myColor = d3.rgb(10*factor,10*factor,30+10*factor);
+    }
+
+    console.log(myColor)
+    return myColor;
 }
