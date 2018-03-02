@@ -62,7 +62,11 @@ h4 {
 div.tooltip {
   position: absolute;
   text-align: center;
+<<<<<<< HEAD
   width: 60px;
+=======
+  width: auto;
+>>>>>>> 8b413f7a4dc639e38b3562817b7e4f9d59879c6d
   height: auto;
   padding: 2px;
   font: 12px sans-serif;
