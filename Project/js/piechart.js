@@ -7,7 +7,6 @@ function piechart(data)
       if(!isNaN(Number(data[sample][point])))
         data[sample][point] = Number(data[sample][point]);
 
-  console.log(data);
 
     var width = 600,                        
     height = 600,                            
@@ -115,6 +114,5 @@ function colorMonth(factor)
         myColor = d3.rgb(10*factor,10*factor,30+10*factor);
     }
 
-    console.log(myColor)
     return myColor;
 }

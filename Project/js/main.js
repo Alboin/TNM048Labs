@@ -10,6 +10,7 @@ $("body").width($(document).width());
 
 var sp;
 var piechart;
+var scroll;
 
 
 function draw(error, data_c, data_m){
@@ -36,5 +37,7 @@ function draw(error, data_c, data_m){
   // Create pie-chart
   var div = '#pie-chart';
   piechart = new piechart(data_m)
+  scroll = new scroll(data_c);
+
 
 }

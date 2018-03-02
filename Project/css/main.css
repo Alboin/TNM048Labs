@@ -62,11 +62,7 @@ h4 {
 div.tooltip {
   position: absolute;
   text-align: center;
-<<<<<<< HEAD
-  width: 60px;
-=======
   width: auto;
->>>>>>> 8b413f7a4dc639e38b3562817b7e4f9d59879c6d
   height: auto;
   padding: 2px;
   font: 12px sans-serif;
@@ -85,28 +81,28 @@ div.tooltip {
     opacity: 0.5;
 }
 
-      svg {
-      font: 10px sans-serif;
-      }
+svg {
+font: 10px sans-serif;
+}
 
 
-      .brush .extent {
-      fill-opacity: .3;
-      stroke: #fff;
-      shape-rendering: crispEdges;
-      }
+.brush .extent {
+fill-opacity: .3;
+stroke: #fff;
+shape-rendering: crispEdges;
+}
 
-      .axis line,
-      .axis path {
-      fill: none;
-      stroke: #000;
-      shape-rendering: crispEdges;
-      }
+.axis line,
+.axis path {
+fill: none;
+stroke: #000;
+shape-rendering: crispEdges;
+}
 
-      .axis text {
-      text-shadow: 0 1px 0 #fff, 1px 0 0 #fff, 0 -1px 0 #fff, -1px 0 0 #fff;
-      cursor: move;
-      }
+.axis text {
+text-shadow: 0 1px 0 #fff, 1px 0 0 #fff, 0 -1px 0 #fff, -1px 0 0 #fff;
+cursor: move;
+}
 
 
 path:hover {
@@ -114,4 +110,39 @@ path:hover {
   stroke-width: 2.5px;
   transition: fill 250ms linear;
   transition-delay: 250ms;
+}
+
+
+.lists {
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    overflow-y: auto;
+    width: 280px;
+    height: 400px;
+    background-color: #e8e8e8;
+    border: 1px solid #AAAAAA;
+    border-radius: 4px;
+    box-shadow: inset 1px 1px 6px 2px rgba(0,0,0, .25);
+}
+.scroll-svg {
+
+  width: auto;
+  height: 400px;
+
+
+}
+.longscroll .row {
+    font-family: Arial;
+    font-size: 11px;
+    height: 19px;
+    padding: 0 8px;
+    border-bottom: solid #eee 1px;
+}
+
+.chartGroup{
+
+  width: auto;
+  height: 400px;
+
 }
