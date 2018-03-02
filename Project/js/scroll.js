@@ -12,20 +12,31 @@ function scroll(data)
 
 
     var div = '#lists';
-
     var scrollList = $(".scroll-menu");
-    					
+    	
+    var sortedData = data; 
+
+        // tack on index to each data item for easy to read display
+    sortedData.forEach(function(sample,i) {
+    	   //var successrate = Math.round(10000* data[sample].success / ( data[sample].success + data[sample].failed)) /100;
+            sample.successrate = Math.round(10000* sample.success / (sample.success + sample.failed)) /100;
+        });
+
+    //sort based on successrate
+    sortedData.sort(function(a, b) {
+    		return parseFloat(b.successrate) - parseFloat(a.successrate);
+		});
+
+
    //populate the scroll list
 
-   for(sample in data)
+   for(sample in sortedData)
    {
-   		
-   		console.log(data[sample].category);
-   		var htmlstring = '<a href= "#">' + data[sample].category + "</a>";
-
+   		var htmlstring = '<a href= "#">' + sortedData[sample].category + "    " + sortedData[sample].successrate + "%  </a>";
    		//create 
    		scrollList.append(htmlstring);
    }
+
 
 
 };

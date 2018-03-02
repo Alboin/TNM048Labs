@@ -55,6 +55,7 @@
 }
 
 h4 {
+  text-align: center;
   color: #559;
 }
 
@@ -113,21 +114,6 @@ path:hover {
 }
 
 
-
-#lists {
-    position: absolute;
-    top: 15px;
-    left: 15px;
-    overflow-y: auto;
-    width: auto;
-    height: 100%;
-    background-color: #e8e8e8;
-    border: 1px solid #AAAAAA;
-    border-radius: 4px;
-    box-shadow: inset 1px 1px 6px 2px rgba(0,0,0, .25);
-}
-
-
 #monthInfo {
   background-color: #fff;
   padding: 15px;
@@ -166,21 +152,41 @@ body{
   color: #777;
 }
 
+
+
+#lists {
+ 
+  background-color: #dde;
+  padding: 15px;
+  border-radius: 10px;
+  border-style: solid;
+  border-color: #ccf;
+  border-width: 1px;
+  height: 100%;
+  
+}
+
+
 .scroll-menu {
-    width: 200px; /* Set a width if you like */
+    width: 100%; /* Set a width if you like */
     overflow:hidden;
     overflow-y:scroll;
-    height: 300px;
+    overflow-x: hidden;
+    height: 400px;
+    margin-top: 20px;
+    object-position: center;
+    border: 1px solid #AAAAAA;
+    border-radius: 4px;
+    box-shadow: inset 1px 1px 6px 2px rgba(0,0,0, .25);
 }
 
 .scroll-menu a {
     background-color: #eee; /* Grey background color */
     color: black; /* Black text color */
     display: block; /* Make the links appear below each other */
-    padding: 12px; /* Add some padding */
+    padding: 5px; /* Add some padding */
     text-decoration: none; /* Remove underline from links */
-    overflow-y: scroll;
-    overflow-x: hidden;
+    overflow: hidden;
 
 }
 
