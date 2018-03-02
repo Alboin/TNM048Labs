@@ -16,6 +16,8 @@ var scroll;
 function draw(error, data_c, data_m){
   if (error) throw error;
 
+  console.log(data_c)
+
   // Format data so that numbers are numbers and not strings.
   for(sample in data_c)
     for(point in data_c[sample])
@@ -52,7 +54,7 @@ function draw(error, data_c, data_m){
   function updateScatterplot()
   {
     var dataFiltered = filterData(data_c);
-    
+
     // Remove any old scatterplot before creating a new one.
     sp = undefined;
     $("#scatter-plot").children().remove();
