@@ -34,9 +34,24 @@
             </div>
           </div>
           <div class="col-sm-4">
-            <label><input type="radio" name="x-scale" value="linear" checked> Linear scale</label>
-             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            <label><input type="radio" name="x-scale" value="log"> Logarithmic scale</label>
+            <div class="row">
+              <div class="col-sm-6">
+                <form class="controls">
+                  <h4>X-axis data:</h4>
+                  <label><input type="radio" name="x-scale" value="linear" checked> Backers/project</label><br>
+                  <label><input type="radio" name="x-scale" value="log"> Goal ($)</label><br>
+                  <label><input type="radio" name="x-scale" value="log"> Pledged ($)</label>
+                </form>
+              </div>
+              <div class="col-sm-6">
+                <form class="controls">
+                  <h4>Y-axis data:</h4>
+                  <label><input type="radio" name="x-scale" value="linear" checked> Backers/project</label><br>
+                  <label><input type="radio" name="x-scale" value="log"> Goal ($)</label><br>
+                  <label><input type="radio" name="x-scale" value="log"> Pledged ($)</label>
+                </form>
+              </div>
+          </div>
             <div id="scatter-plot">
             </div>
           </div>

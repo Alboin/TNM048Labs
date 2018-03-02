@@ -48,6 +48,16 @@
   stroke-width: 1px;
 }
 
+.controls {
+  background-color: #eef;
+  padding: 15px;
+  border-radius: 10px;
+}
+
+h4 {
+  color: #559;
+}
+
 
 div.tooltip {
   position: absolute;

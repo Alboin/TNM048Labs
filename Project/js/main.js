@@ -17,3 +17,4 @@ function draw(error, data_c, data_m){
   piechart = new piechart(data_m)
 
 }
+
