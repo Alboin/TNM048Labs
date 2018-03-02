@@ -43,7 +43,7 @@
 }
 
 .foreground path.inactive {
-  stroke: #ccc;
+  stroke: #fff;
   stroke-opacity: .5;
   stroke-width: 1px;
 }
@@ -62,11 +62,7 @@ h4 {
 div.tooltip {
   position: absolute;
   text-align: center;
-<<<<<<< HEAD
-  width: 60px;
-=======
   width: auto;
->>>>>>> 8b413f7a4dc639e38b3562817b7e4f9d59879c6d
   height: auto;
   padding: 2px;
   font: 12px sans-serif;
@@ -110,8 +106,46 @@ div.tooltip {
 
 
 path:hover {
-  stroke: #ccc;
-  stroke-width: 2.5px;
+  stroke: #000;
+  stroke-width: 1.5px;
   transition: fill 250ms linear;
   transition-delay: 250ms;
+}
+
+#monthInfo {
+  background-color: #fff;
+  padding: 15px;
+  border-radius: 10px;
+  border-style: solid;
+  border-color: #ccf;
+  border-width: 1px;
+}
+
+.infoHeader {
+  color: #448;
+}
+
+#pie-month-info
+{
+  background-color: #eef;
+  border-radius: 10px;
+  margin-left: 30px;
+  padding-top: 40px;
+  padding-left: 20px;
+}
+
+h1 {
+  margin: 20px;
+  font-weight: bold;
+}
+
+/* Disable scrolling */
+body{
+  overflow: hidden;
+}
+
+#datainfo {
+  padding-top: 20px;
+  padding-right: 20px;
+  color: #777;
 }
