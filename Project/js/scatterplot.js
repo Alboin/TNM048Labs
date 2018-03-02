@@ -8,13 +8,14 @@ function scatterplot(data, selectedX, selectedY)
 
   var div = '#scatter-plot';
 
+
   //The base-code for the scatterplot is from
   //http://bl.ocks.org/weiglemc/6185069
 
 
   var margin = {top: 50, right: 50, bottom: 60, left: 80};
   var width = $(".col-sm-4").width() - margin.right - margin.left;
-  var height = 0.9 * $(document).height() - margin.top - margin.bottom - $(".controls").height();
+  var height = 0.9 * $(document).height() - margin.top - margin.bottom - $(".controls").height() - $("#title").height();
   // Modify number of ticks on x-axis depending on screen width.
   var number_ticks = Math.round($(document).width() / 1200 * 4);
 

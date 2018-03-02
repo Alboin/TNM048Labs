@@ -1,6 +1,9 @@
 function piechart(data)
 {
 
+  var div = '#pie-chart';
+
+
   // Format data so that numbers are numbers and not strings.
   for(sample in data)
     for(point in data[sample])
@@ -8,15 +11,17 @@ function piechart(data)
         data[sample][point] = Number(data[sample][point]);
 
 
-    var width = 600,                        
-    height = 600,                            
+
+
+    var width = $("#pie-chart").width(),
+    height = $("#pie-chart").width(),
     maxRadius = 200,
-    minRadius = 50,
-    sliceScale = 300;
+    minRadius = 10,
+    sliceScale = 400;
 
 
     var div = '#pie-chart';
-    
+
     var vis = d3.select(div)
         .append("svg:svg")              //create the SVG element inside the <body>
         .data([data])                   //associate our data with the document
@@ -24,23 +29,22 @@ function piechart(data)
             .attr("height", height)
         .append("svg:g")                //make a group to hold our pie chart
             .attr("transform", "translate(" + maxRadius + "," + maxRadius + ")") ;   //move the center of the pie chart from 0, 0 to maxRadius, maxRadius
-        
+
 
     var arc = d3.svg.arc()              //this will create <path> elements for us using arc data
         //.outerRadius(maxRadius)
-        .outerRadius(function(d) { 
-        	
+        .outerRadius(function(d) {
+
         	var radius = minRadius + d.data.success/(d.data.failed+d.data.success) * sliceScale;
 
-        	return radius ; 
-        })
-        ;
+        	return radius ;
+        });
 
     var pie = d3.layout.pie()           //this will create arc data for us given a list of values
         .value(function(d) { return 1; });    //return the val controlling the arc angle
 
     var arcs = vis.selectAll("g.slice")     //this selects all <g> elements with class slice (there aren't any yet)
-        .data(pie)                          //associate the generated pie data (an array of arcs, each having startAngle, endAngle and value properties) 
+        .data(pie)                          //associate the generated pie data (an array of arcs, each having startAngle, endAngle and value properties)
         .enter()                            //this will create <g> elements for every "extra" data element that should be associated with a selection. The result is creating a <g> for every object in the data array
             .append("svg:g")                //create a group to hold each slice (we will have a <path> and a <text> element associated with each slice)
                 .attr("class", "slice");    //allow us to style things in the slices (like text)
@@ -51,6 +55,7 @@ function piechart(data)
                                    //this creates the actual SVG path using the associated data (pie) with the arc drawing function
 
         arcs.append("svg:text")                                     //add a label to each slice
+                .attr("class", "monthText")
                 .attr("transform", function(d) {                    //set the label's origin to the center of the arc
                 //we have to make sure to set these before calling arc.centroid
                 d.innerRadius = 0;
@@ -58,61 +63,53 @@ function piechart(data)
                 return "translate(" + arc.centroid(d) + ")";        //this gives us a pair of coordinates like [50, 50]
             })
             .attr("text-anchor", "middle")                          //center the text on it's origin
-            .text(function(d, i) { 
+            .text(function(d, i) {
                                 var percent = Math.round(100 * d.data.success / (d.data.success + d.data.failed)); // NEW
                                 return data[i].month  ; });        //get the label from our original data array
-		
-
-
-	// create the tooltip for hovering over a slice
-
-        var tooltip = d3.select("body").append("div")
-		    .attr("class", "tooltip")
-		    .style("opacity", 0);
-        
-        tooltip.append('div')                                           
-                 .attr('class', 'label');
-        tooltip.append('div')                                           
-                .attr('class', 'succeeded'); 
-        tooltip.append('div')                                           
-                 .attr('class', 'failed'); 
 
 
 
-          // apply the tooltip 
-        arcs.on("mouseover", function(d) {		
-		        tooltip.transition()		
-		            .duration(200)		
-		            .style("opacity", .9);
-                
-                var percent = Math.round(100 * d.data.success / (d.data.success + d.data.failed)); 
+        arcs.on("mouseover", function(d, i) {
 
-                tooltip.select('.label').html(d.data.month);                
-                tooltip.select('.succeeded').html("succeded: " + d.data.success);                
-                tooltip.select('.failed').html("failed: " + d.data.failed); 
-    		    tooltip.style("left", d3.event.pageX +"px")
-    		            .style("top", d3.event.pageY +"px");
-		        })					
-    		.on("mouseout", function(d) {		
-	        		tooltip.transition()		
-	            	.duration(500)		
-	            	.style("opacity", 0)});                        
-	
+                // Makes the last selected still being selected when the mouse leaves.
+                arcs.attr("stroke-width", 0);
+                $(this).attr("stroke", "#000").attr("stroke-width", "1.5px");
+                $(".monthText").attr("stroke-width", 0);
+
+                var percent = Math.round(10000 * d.data.success / (d.data.success + d.data.failed)) / 100;
+
+                // Show which month is selected.
+                var monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+                $("#selectedMonth").html(monthNames[i]);
+
+                // Display detailed data for that month.
+                $("#monthStatistics").html("Succesful projects: &nbsp;" + data[i].success
+                    + "<br>Failed projects: &nbsp;" + data[i].failed
+                    + "<br>Success rate: &nbsp;" + percent + "%");
+
+                // Change the comparison circle radius to the selected slice's radius
+                circleBorder.attr("r", minRadius + d.data.success/(d.data.failed+d.data.success) * sliceScale);
+
+		        });
+
+        // Create circle for comparison between slices.
+        var circleBorder = vis.append("circle")
+              .attr("cx", 0)
+              .attr("cy", 0)
+              .attr("r", minRadius)
+              .style("stroke", "black")
+              .style("fill", "none");
+
+
 }
 
 
 
 function colorMonth(factor)
 {
-    
-    var myColor;
-
-    if(factor <= 8){
-        myColor = d3.rgb(20+10*factor,20+10*factor,60+10*factor);
-    }
-    else {
-        myColor = d3.rgb(10*factor,10*factor,30+10*factor);
-    }
+    var intensity = 0.6 + 0.07 * (factor % 2);
+    var myColor = d3.hsl(230, 0.5, intensity);
+    //var myColor = d3.hsl(220,0.4,0.6 * Math.sqrt(Math.sqrt((12 - factor+1) / 12)));
 
     return myColor;
 }

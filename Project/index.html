@@ -22,13 +22,38 @@
 <body>
 
       <div class="row">
-          <div class="col-sm-4">
+        <div class="col-sm-8">
+          <h1 id="title">Kickstarter projects statistics</h1>
+        </div>
+        <div class="col-sm-4">
+          <div id="datainfo">
+            <p>Data from over 300 000 kickstarter projects between 2009-10-30 and 2017-09-09. </p>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="row" id="mainrow">
+          <div class="col-sm-4" id="pie-month-info">
             <div class="chart-wrapper">
               <div class="chart-title">
               </div>
               <div class="chart-stage">
-                <div id="pie-chart"> </div>
+
+                <div id="pie-chart">
+                  <h4>Average success rate for each month</h4>
+                </div>
               </div>
+            </div>
+            <div class="row">
+              <div class="col-sm-2"></div>
+              <div class="col-sm-8" id="monthInfo">
+                <p class="infoHeader">Kickstarter projects in <b id="selectedMonth">...</b></p>
+                <p id="monthStatistics">Succesful projects:<br>
+                Failed projects:<br>
+                Success rate: </p>
+              </div>
+              <div class="col-sm-2"></div>
             </div>
           </div>
           <div class="col-sm-4">
@@ -55,11 +80,11 @@
           </div>
           <div class="col-sm-4">
             <div id="lists">
-              lista
+               <h4>This sucks!</h4>
+
             </div>
           </div>
       </div>
-
 
 </body>
 

@@ -24,7 +24,7 @@ function scroll(data)
 
     var defs = scrollSVG.insert("defs", ":first-child");
 
-    //createFilters(defs);
+    createFilters(defs);
 
     var chartGroup = scrollSVG.append("g")
         .attr("class", "chartGroup");
