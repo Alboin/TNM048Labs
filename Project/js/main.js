@@ -7,14 +7,34 @@ queue()
 $("body").height($(document).height());
 $("body").width($(document).width());
 
-var scatterplot;
+var sp;
 
 function draw(error, data_c, data_m){
   if (error) throw error;
 
-  scatterplot = new scatterplot(data_c);
+  // This function creates the scatterplot with the user-defined data.
+  updateAxes();
+
+  // Set the radio-buttons to update the scatterplot on click.
+  $("#Xcontrols").children().on("click", updateAxes);
+  $("#Ycontrols").children().on("click", updateAxes);
+
+  function updateAxes()
+  {
+    // Remove any old scatterplot before creating a new one.
+    sp = undefined;
+    $("#scatter-plot").children().remove();
+    // Retrieve which data the user want to plot.
+    var selectedX = $('input[name=x-scale]:checked').val();
+    var selectedY = $('input[name=y-scale]:checked').val();
+    // Create the scatterplot.
+    sp = new scatterplot(data_c, selectedX, selectedY);
+  }
 
 }
+
+
+
     var div = '#pie-chart';
 
     var width = 500,//$(div).parent().width(),

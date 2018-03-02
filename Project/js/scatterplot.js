@@ -1,12 +1,10 @@
-function scatterplot(data)
+function scatterplot(data, selectedX, selectedY)
 {
   // Format data so that numbers are numbers and not strings.
   for(sample in data)
     for(point in data[sample])
       if(!isNaN(Number(data[sample][point])))
         data[sample][point] = Number(data[sample][point]);
-
-  console.log(data);
 
   var div = '#scatter-plot';
 
@@ -28,19 +26,32 @@ function scatterplot(data)
   var tooltip = d3.select("body").append("div")
     .attr("class", "tooltip")
     .style("width", 100)
-    .style("height", 18)
     .style("opacity", 0);
 
 
   // setup x
-  var xValue = function(d) { return d.backers / (d.success + d.failed)}, // data -> value
-      xScale = d3.scale.linear().range([0, width]), // value -> display
+  var xValue = function(d) {
+      if(selectedX == "backers")
+        return d.backers / (d.success + d.failed);
+      else if(selectedX == "goal")
+        return d.goal;
+      else
+        return d.pledged;
+      }; // data -> value
+      var xScale = d3.scale.linear().range([0, width]), // value -> display
       xMap = function(d) { return xScale(xValue(d));}, // data -> display
       xAxis = d3.svg.axis().scale(xScale).orient("bottom");
 
   // setup y
-  var yValue = function(d) { return d.goal;}, // data -> value
-      yScale = d3.scale.linear().range([height, 0]), // value -> display
+  var yValue = function(d) {
+      if(selectedY == "backers")
+        return d.backers / (d.success + d.failed);
+      else if(selectedY == "goal")
+        return d.goal;
+      else
+        return d.pledged;
+  }; // data -> value
+      var yScale = d3.scale.linear().range([height, 0]), // value -> display
       yMap = function(d) { return yScale(yValue(d));}, // data -> display
       yAxis = d3.svg.axis().scale(yScale).orient("left");
 
@@ -57,6 +68,21 @@ function scatterplot(data)
     xScale.domain([d3.min(data, xValue)-1, d3.max(data, xValue)+1]);
     yScale.domain([d3.min(data, yValue)-1, d3.max(data, yValue)+1]);
 
+    // Make sure the axes have the right label depending on plotted data.
+    var xAxisLabel, yAxisLabel;
+    if(selectedX == "backers")
+      xAxisLabel = "Backers/project";
+    else if(selectedX == "goal")
+      xAxisLabel = "Goal ($)";
+    else
+      xAxisLabel = "Pledged ($)";
+    if(selectedY == "backers")
+      yAxisLabel = "Backers/project";
+    else if(selectedY == "goal")
+      yAxisLabel = "Goal ($)";
+    else
+      yAxisLabel = "Pledged ($)";
+
     // x-axis
  svg.append("g")
      .attr("class", "x axis")
@@ -69,7 +95,7 @@ function scatterplot(data)
      .style("text-anchor", "end")
      .attr("opacity", 0.4)
      .attr("font-size", 26)
-     .text("Backers/project");
+     .text(xAxisLabel);
 
  // y-axis
  svg.append("g")
@@ -83,7 +109,7 @@ function scatterplot(data)
      .style("text-anchor", "end")
      .attr("opacity", 0.4)
      .attr("font-size", 26)
-     .text("Goal ($)");
+     .text(yAxisLabel);
 
 
  // draw dots
@@ -144,7 +170,35 @@ function scatterplot(data)
     //https://gist.github.com/phoebebright/3098488
     //and then modified to suit this application
 
-    $("#rescale").on("click", function(d) {
+    //$("#Xcontrols").children().on("click", updateAxes);
+    //$("#Ycontrols").children().on("click", updateAxes);
+
+    /*function updateAxes()
+    {
+      var selectedX = $('input[name=x-scale]:checked').val();
+      var selectedY = $('input[name=y-scale]:checked').val();
+      console.log(selectedX + " " + selectedY)
+
+      // Scale the range of the data again
+      xScale.domain(d3.extent(data, function(d) { return d.success; }));
+      yScale.domain([0, d3.max(data, function(d) { return d.failure; })]);
+
+      // Select the section we want to apply our changes to
+      var svg = d3.select("body").transition();
+
+      // Make the changes
+        svg.select(".line")   // change the line
+            .duration(750)
+            .attr("d", valueline(data));
+        svg.select(".x.axis") // change the x axis
+            .duration(750)
+            .call(xAxis);
+        svg.select(".y.axis") // change the y axis
+            .duration(750)
+            .call(yAxis);
+
+
+    }*/
 
 
           /*yScale.domain([0,Math.floor((Math.random()*90)+11)])  // change scale to 0, to between 10 and 100
@@ -155,7 +209,6 @@ function scatterplot(data)
               .text("Rescaled Axis");
       */
 
-      console.log("click!");
 
       /*
                 // setup x
@@ -171,7 +224,7 @@ function scatterplot(data)
                     yAxis = d3.svg.axis().scale(yScale).orient("left");
 
 */
-    });
+
 
 
 }
