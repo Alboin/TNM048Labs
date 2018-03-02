@@ -11,4 +11,21 @@ function scroll(data)
         data[sample][point] = Number(data[sample][point]);
 
 
+    var div = '#lists';
+
+    var scrollList = $(".scroll-menu");
+    					
+   //populate the scroll list
+
+   for(sample in data)
+   {
+   		
+   		console.log(data[sample].category);
+   		var htmlstring = '<a href= "#">' + data[sample].category + "</a>";
+
+   		//create 
+   		scrollList.append(htmlstring);
+   }
+
+
 };

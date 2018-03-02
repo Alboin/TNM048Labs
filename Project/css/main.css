@@ -114,39 +114,19 @@ path:hover {
 
 
 
-.lists {
+#lists {
     position: absolute;
     top: 15px;
     left: 15px;
     overflow-y: auto;
-    width: 600px;
-    height: 600px;
+    width: auto;
+    height: 100%;
     background-color: #e8e8e8;
     border: 1px solid #AAAAAA;
     border-radius: 4px;
     box-shadow: inset 1px 1px 6px 2px rgba(0,0,0, .25);
 }
-.scroll-svg {
 
-  width: auto;
-  height: auto;
-
-
-}
-.longscroll .row {
-    font-family: Arial;
-    font-size: 11px;
-    height: 19px;
-    padding: 0 8px;
-    border-bottom: solid #eee 1px;
-}
-
-.chartGroup{
-
-  width: auto;
-  height: 400px;
-
-}
 
 #monthInfo {
   background-color: #fff;
@@ -186,23 +166,26 @@ body{
   color: #777;
 }
 
-.vertical-menu {
+.scroll-menu {
     width: 200px; /* Set a width if you like */
 }
 
-.vertical-menu a {
+.scroll-menu a {
     background-color: #eee; /* Grey background color */
     color: black; /* Black text color */
     display: block; /* Make the links appear below each other */
     padding: 12px; /* Add some padding */
     text-decoration: none; /* Remove underline from links */
+    overflow-y: scroll;
+    overflow-x: hidden;
+
 }
 
-.vertical-menu a:hover {
+.scroll-menu a:hover {
     background-color: #ccc; /* Dark grey background on mouse-over */
 }
 
-.vertical-menu a.active {
+.scroll-menu a.active {
     background-color: #4CAF50; /* Add a green color to the "active/current" link */
     color: white;
 }
