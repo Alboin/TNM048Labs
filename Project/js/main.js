@@ -16,13 +16,21 @@ var scroll;
 function draw(error, data_c, data_m){
   if (error) throw error;
   // This function creates the scatterplot with the user-defined data.
-  updateAxes();
+  updateScatterplot();
+
+  // Create pie-chart
+  piechart = new piechart(data_m)
+  // Create scroll-lists
+  scroll = new scroll(data_c);
 
   // Set the radio-buttons to update the scatterplot on click.
-  $("#Xcontrols").children().on("click", updateAxes);
-  $("#Ycontrols").children().on("click", updateAxes);
+  $("#Xcontrols").children().on("click", updateScatterplot);
+  $("#Ycontrols").children().on("click", updateScatterplot);
 
-  function updateAxes()
+  // Set up the elements in the scroll-list to update the scatterplot on click.
+  $(".scroll-menu").children().on("click", updateScatterplot);
+
+  function updateScatterplot()
   {
     // Remove any old scatterplot before creating a new one.
     sp = undefined;
@@ -34,9 +42,7 @@ function draw(error, data_c, data_m){
     sp = new scatterplot(data_c, selectedX, selectedY);
   }
 
-  // Create pie-chart
-  piechart = new piechart(data_m)
-  scroll = new scroll(data_c);
+
 
 
   // Correct page sizes
