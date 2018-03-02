@@ -188,6 +188,9 @@ body{
 
 .vertical-menu {
     width: 200px; /* Set a width if you like */
+    overflow:hidden;
+    overflow-y:scroll;
+    height: 300px;
 }
 
 .vertical-menu a {
@@ -196,6 +199,7 @@ body{
     display: block; /* Make the links appear below each other */
     padding: 12px; /* Add some padding */
     text-decoration: none; /* Remove underline from links */
+
 }
 
 .vertical-menu a:hover {

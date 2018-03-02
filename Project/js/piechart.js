@@ -15,9 +15,9 @@ function piechart(data)
 
     var width = $("#pie-chart").width(),
     height = $("#pie-chart").width(),
-    maxRadius = 200,
+    maxRadius = width / 2,
     minRadius = 10,
-    sliceScale = 400;
+    sliceScale = 300;
 
 
     var div = '#pie-chart';
@@ -83,8 +83,8 @@ function piechart(data)
                 $("#selectedMonth").html(monthNames[i]);
 
                 // Display detailed data for that month.
-                $("#monthStatistics").html("Succesful projects: &nbsp;" + data[i].success
-                    + "<br>Failed projects: &nbsp;" + data[i].failed
+                $("#monthStatistics").html("Succesful projects: &nbsp;" + formatNumber(data[i].success)
+                    + "<br>Failed projects: &nbsp;" + formatNumber(data[i].failed)
                     + "<br>Success rate: &nbsp;" + percent + "%");
 
                 // Change the comparison circle radius to the selected slice's radius

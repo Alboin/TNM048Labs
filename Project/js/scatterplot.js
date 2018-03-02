@@ -1,10 +1,13 @@
-function scatterplot(data, selectedX, selectedY)
+function scatterplot(data, selectedX, selectedY, dataTransparent)
 {
   // Format data so that numbers are numbers and not strings.
   for(sample in data)
     for(point in data[sample])
       if(!isNaN(Number(data[sample][point])))
         data[sample][point] = Number(data[sample][point]);
+
+  if(dataTransparent == undefined)
+    dataTransparent = [];
 
   var div = '#scatter-plot';
 
@@ -15,7 +18,7 @@ function scatterplot(data, selectedX, selectedY)
 
 
   var margin = {top: 50, right: 50, bottom: 60, left: 80};
-  var width = $(".col-sm-4").width() - margin.right - margin.left;
+  var width = $(".col-sm-5").width() - margin.right - margin.left;
   var height = 0.9 * $(document).height() - margin.top - margin.bottom - $(".controls").height() - $("#title").height();
   // Modify number of ticks on x-axis depending on screen width.
   var number_ticks = Math.round($(document).width() / 1200 * 4);
@@ -138,6 +141,31 @@ function scatterplot(data, selectedX, selectedY)
               .duration(200)
               .style("opacity", 0);
      });
+
+     // draw transparent dots
+     svg.selectAll(".dot")
+         .data(dataTransparent)
+       .enter().append("circle")
+         .attr("class", "dot")
+         .attr("r", 4.0)
+         .attr("cx", xMap)
+         .attr("cy", yMap)
+         .style("fill", function(d) { return color(cValue(d));})
+         .attr("opacity", 0.1)
+         .on("mouseover", function(d) {
+             tooltip.transition()
+                  .duration(50)
+                  .style("opacity", .9);
+             tooltip.html(d.category/* + "<br/> (" + xValue(d)
+             + ", " + yValue(d) + ")"*/)
+                  .style("left", (d3.event.pageX + 5) + "px")
+                  .style("top", (d3.event.pageY - 28) + "px");
+         })
+         .on("mouseout", function(d) {
+             tooltip.transition()
+                  .duration(200)
+                  .style("opacity", 0);
+         });
 
      // draw legend
     var legend = svg.selectAll(".legend")
