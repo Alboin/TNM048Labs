@@ -168,6 +168,9 @@ body{
 
 .scroll-menu {
     width: 200px; /* Set a width if you like */
+    overflow:hidden;
+    overflow-y:scroll;
+    height: 300px;
 }
 
 .scroll-menu a {
