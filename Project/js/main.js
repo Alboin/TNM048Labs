@@ -40,7 +40,7 @@ function draw(error, data_c, data_m){
 
 
   // Correct page sizes
-  $("#pie-month-info").css("height", 0.9 * $(document).height() - $("#title").height());
+  $("#pie-month-info").css("height", $("#scatter-plot").height() + $("#title").height() );
   var titleHeight = $("#title").height();
   $("#title").html("<img id='logo' src='Kickstarter_logo.svg.png'>&nbsp; project statistics");
   $("#logo").height(titleHeight);

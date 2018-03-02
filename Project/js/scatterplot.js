@@ -8,6 +8,7 @@ function scatterplot(data, selectedX, selectedY)
 
   var div = '#scatter-plot';
 
+  console.log(data)
 
   //The base-code for the scatterplot is from
   //http://bl.ocks.org/weiglemc/6185069
