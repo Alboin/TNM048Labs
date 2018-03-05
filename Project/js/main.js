@@ -47,9 +47,8 @@ function draw(error, data_c, data_m){
       $(this).removeClass("unselected").addClass("selected");
 
     if($(this).hasClass("maincatListItem"))
-    {
-      updateSubcategories();
-    }
+      updateSubcategories($(this));
+
     updateScatterplot();
   });
 
@@ -72,11 +71,11 @@ function draw(error, data_c, data_m){
 
   // Function for updating selected subcategories depending on which
   // main categories are selected.
-  function updateSubcategories()
+  function updateSubcategories(maincategory)
   {
     // Go through each main category list-item
-    $(".maincatListItem").each(function() {
-      var maincat = "[maincategory='" + $(this).attr("id") + "']";
+    maincategory.each(function() {
+      var maincat = "[maincategory='" + maincategory.attr("id") + "']";
 
       // If the main category list item is selected
       if($(this).hasClass("selected")) {
