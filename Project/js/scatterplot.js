@@ -144,7 +144,7 @@ function scatterplot(data, selectedX, selectedY, dataTransparent, allData)
          .attr("cx", xMap)
          .attr("cy", yMap)
          .style("fill", function(d) { return color(cValue(d));})
-         .attr("opacity", 0.4)
+         .attr("opacity", 0.2)
          .on("mouseover", function(d) {
              tooltip.transition()
                   .duration(50)
@@ -188,6 +188,12 @@ function scatterplot(data, selectedX, selectedY, dataTransparent, allData)
         .attr("dy", ".35em")
         .style("text-anchor", "end")
         .text(function(d) { return d;});
+
+    function logit(d)
+    {
+      console.log("Hej!");
+      console.log(d);
+    }
 
     //Function originally from
     //https://gist.github.com/phoebebright/3098488

@@ -26,7 +26,7 @@ function filterData(data)
       {
         console.log("un")
         // Find the data sample and move it from selected to unselected
-        var index = findCategoryIndex(i.innerHTML, selectedData);
+        var index = findCategoryIndex(i.id, selectedData);
         unselectedData.push(selectedData[index]);
         selectedData.splice(index, 1);
       }
@@ -34,12 +34,12 @@ function filterData(data)
       else if(i.className == "selected")
       {
         console.log("se")
-
         // Find the data sample and move it from unselected to selected
-        var index = findCategoryIndex(i.innerHTML, unselectedData);
+        var index = findCategoryIndex(i.id, unselectedData);
         selectedData.push(unselectedData[index]);
         unselectedData.splice(index, 1);
       }
+      // Remove the "justChanged"-status from the object
       $(this).removeAttr("status");
     }
 

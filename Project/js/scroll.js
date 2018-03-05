@@ -32,10 +32,14 @@ function scroll(data)
 
    for(sample in sortedData)
    {
-   		var htmlstring = '<a href= "#">' + sortedData[sample].category + "    " + sortedData[sample].successrate + "%  </a>";
+   		var htmlstring = '<a href= "#" class="listItem" id="' + sortedData[sample].category + '">' + sortedData[sample].category + "    " + sortedData[sample].successrate + "%  </a>";
    		//create
    		scrollList.append(htmlstring);
    }
+
+   var scrollItem = d3.selectAll(".listItem").on("click", function(d) {
+     sp.logit(d);
+   });
 
 
 
