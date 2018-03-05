@@ -26,7 +26,6 @@ img:hover {
 .axis path {
   fill: none;
   stroke: #000;
-  shape-rendering: crispEdges;
 }
 
 .axis.string {
@@ -97,14 +96,12 @@ font: 10px sans-serif;
 .brush .extent {
 fill-opacity: .3;
 stroke: #fff;
-shape-rendering: crispEdges;
 }
 
 .axis line,
 .axis path {
 fill: none;
 stroke: #000;
-shape-rendering: crispEdges;
 }
 
 .axis text {
@@ -116,8 +113,9 @@ cursor: move;
 path:hover {
   stroke: #000;
   stroke-width: 1.5px;
-  transition: fill 250ms linear;
-  transition-delay: 250ms;
+  opacity: 0.5;
+  -webkit-transition-duration: 0.8s; /* Safari */
+  transition-duration: 0.8s;
 }
 
 
@@ -146,6 +144,9 @@ path:hover {
   padding-bottom: 20px;
   padding-left: 20px;
   height: 100%;
+
+  -webkit-transition-duration: 0.4s; /* Safari */
+  transition-duration: 0.4s;
 }
 
 h1 {
