@@ -1,5 +1,3 @@
-//credit to  Bill White for his Virtual Scroller
-//http://www.billdwhite.com/wordpress/2014/05/17/d3-scalability-virtual-scrolling-for-large-visualizations/
 function scrollSubCategory(data)
 {
 	  // Format data so that numbers are numbers and not strings.
@@ -32,73 +30,14 @@ function scrollSubCategory(data)
    		var htmlstring = '<a href= "#" style="' + generateBackgroundColor(false, sortedData[sample].successrate) + '" class="listItem unselected" id="' + sortedData[sample].category + '">' + sortedData[sample].category + "    " + sortedData[sample].successrate + "%  </a>";
    		//create
    		scrollList.append(htmlstring);
+      scrollList.children().last().attr("maincategory", sortedData[sample].maincategory);
 
    }
 
-   // Following rows make sure that the color of the list-items changes upon
-   // hovering and selection.
-   $(".listItem").mouseover(function() {
-     var tempString = $(this).html();
-     var percentage = Number(tempString.replace( /^\D+/g, '').replace("%", ""));
 
-     if($(this).attr("class").split(' ').pop() == "selected")
-     {
-       $(this).attr("style", generateBackgroundColor(true, percentage, true));
-     } else {
-       $(this).attr("style", generateBackgroundColor(true, percentage, false));
-     }
-   })
-   .mouseleave(function() {
-     var tempString = $(this).html();
-     var percentage = Number(tempString.replace( /^\D+/g, '').replace("%", ""));
-
-     if($(this).attr("class").split(' ').pop() == "selected")
-     {
-       $(this).attr("style", generateBackgroundColor(false, percentage, true));
-     } else {
-       $(this).attr("style", generateBackgroundColor(false, percentage, false));
-     }
-
-   })
-   .on("click", function() {
-     var tempString = $(this).html();
-     var percentage = Number(tempString.replace( /^\D+/g, '').replace("%", ""));
-     $(this).attr("style", generateBackgroundColor(true, percentage, true));
-   });
-
-   // Generate the correct background-color based on successrate and list-item status.
-   function generateBackgroundColor(hover, percentage, click)
-   {
-     var greenColor = " rgba(180, 255, 180,1) ";
-     var redColor = " rgba(255, 195, 181,1) ";
-
-     if(click && hover)
-     {
-       greenColor = " rgba(110, 240, 110,1) ";
-       redColor = " rgba(230, 130, 110, 1) ";
-     }
-     else if(hover)
-     {
-       greenColor = " rgba(140, 255, 140,1) ";
-       redColor = " rgba(255, 157, 135, 1) ";
-     }
-     else if(click)
-     {
-       greenColor = " rgba(90, 221, 90,1) ";
-       redColor = " rgba(209, 108, 85, 1) ";
-     }
+   setHoverColors();
 
 
-      var styleString =
-    "background: -moz-linear-gradient(right, " + greenColor + " 0%, " + greenColor + percentage + "%, " + redColor + (percentage + 0.01) + "%, " + redColor + " 100%);" +/* FF3.6+ */
-    "background: -webkit-gradient(linear, right top, left bottom, color-stop(0%, " + greenColor + "), color-stop(" + percentage + "%,rgba(41,137,216,0)), color-stop(" + (percentage + 0.01) + "%,rgba(255,48,48,1)), color-stop(100%,rgba(255,0,0,1)));" +/* Chrome,Safari4+ */
-    "background: -webkit-linear-gradient(right, " + greenColor + " 0%," + greenColor + percentage + "%," + redColor + (percentage + 0.01) + "%," + redColor + " 100%);" +/* Chrome10+,Safari5.1+ */
-    "background: -o-linear-gradient(right, " + greenColor + " 0%," + greenColor + percentage + "%," + redColor + (percentage + 0.01) + "%," + redColor + " 100%);" +/* Opera 11.10+ */
-    "background: -ms-linear-gradient(right, " + greenColor + " 0%, " + greenColor + percentage + "%," + redColor + (percentage + 0.01) + "%," + redColor + " 100%);" +/* IE10+ */
-    "background: linear-gradient(to right, " + greenColor + " 0%, " + greenColor + percentage + "%," + redColor + (percentage + 0.01) + "%," + redColor + " 100%);"; /* W3C */
-
-    return styleString;
-	}
 }
 
 function scrollMainCategory(data)
@@ -144,10 +83,80 @@ function scrollMainCategory(data)
 
    for(sample in mainSumData)
    {
-   		var htmlstring = '<a href= "#" class="listItem" id="' + mainSumData[sample][0] + '">'
+   		var htmlstring = '<a href= "#" style="' + generateBackgroundColor(false, mainSumData[sample][1]) + '" class="listItem maincatListItem unselected" id="' + mainSumData[sample][0] + '">'
    							+ mainSumData[sample][0] + "    " + mainSumData[sample][1] + "%  </a>";
    		//create
    		scrollList.append(htmlstring);
    }
 
+   setHoverColors();
+
+}
+
+function setHoverColors()
+{
+  // Following rows make sure that the color of the list-items changes upon
+  // hovering and selection.
+  $(".listItem").mouseover(function() {
+    var tempString = $(this).html().substring(2, $(this).html().length);
+    var percentage = Number(tempString.replace( /^\D+/g, '').replace("%", ""));
+
+    if($(this).attr("class").split(' ').pop() == "selected")
+    {
+      $(this).attr("style", generateBackgroundColor(true, percentage, true));
+    } else {
+      $(this).attr("style", generateBackgroundColor(true, percentage, false));
+    }
+  })
+  .mouseleave(function() {
+    var tempString = $(this).html().substring(2, $(this).html().length);
+    var percentage = Number(tempString.replace( /^\D+/g, '').replace("%", ""));
+
+    if($(this).attr("class").split(' ').pop() == "selected")
+    {
+      $(this).attr("style", generateBackgroundColor(false, percentage, true));
+    } else {
+      $(this).attr("style", generateBackgroundColor(false, percentage, false));
+    }
+
+  })
+  .on("click", function() {
+    var tempString = $(this).html().substring(2, $(this).html().length);
+    var percentage = Number(tempString.replace( /^\D+/g, '').replace("%", ""));
+    $(this).attr("style", generateBackgroundColor(true, percentage, true));
+  });
+}
+
+// Generate the correct background-color based on successrate and list-item status.
+function generateBackgroundColor(hover, percentage, click)
+{
+  var greenColor = " rgba(180, 255, 180,1) ";
+  var redColor = " rgba(255, 195, 181,1) ";
+
+  if(click && hover)
+  {
+    greenColor = " rgba(110, 240, 110,1) ";
+    redColor = " rgba(230, 130, 110, 1) ";
+  }
+  else if(hover)
+  {
+    greenColor = " rgba(140, 255, 140,1) ";
+    redColor = " rgba(255, 157, 135, 1) ";
+  }
+  else if(click)
+  {
+    greenColor = " rgba(90, 221, 90,1) ";
+    redColor = " rgba(209, 108, 85, 1) ";
+  }
+
+
+   var styleString =
+ "background: -moz-linear-gradient(right, " + greenColor + " 0%, " + greenColor + percentage + "%, " + redColor + (percentage + 0.01) + "%, " + redColor + " 100%);" +/* FF3.6+ */
+ "background: -webkit-gradient(linear, right top, left bottom, color-stop(0%, " + greenColor + "), color-stop(" + percentage + "%,rgba(41,137,216,0)), color-stop(" + (percentage + 0.01) + "%,rgba(255,48,48,1)), color-stop(100%,rgba(255,0,0,1)));" +/* Chrome,Safari4+ */
+ "background: -webkit-linear-gradient(right, " + greenColor + " 0%," + greenColor + percentage + "%," + redColor + (percentage + 0.01) + "%," + redColor + " 100%);" +/* Chrome10+,Safari5.1+ */
+ "background: -o-linear-gradient(right, " + greenColor + " 0%," + greenColor + percentage + "%," + redColor + (percentage + 0.01) + "%," + redColor + " 100%);" +/* Opera 11.10+ */
+ "background: -ms-linear-gradient(right, " + greenColor + " 0%, " + greenColor + percentage + "%," + redColor + (percentage + 0.01) + "%," + redColor + " 100%);" +/* IE10+ */
+ "background: linear-gradient(to right, " + greenColor + " 0%, " + greenColor + percentage + "%," + redColor + (percentage + 0.01) + "%," + redColor + " 100%);"; /* W3C */
+
+ return styleString;
 }

@@ -41,11 +41,15 @@ function draw(error, data_c, data_m){
   $(".scroll-menu").children().on("click", function(d)
   {
     // Switch class between selected/unselected.
-    if($(this).attr("class").split(' ').pop() == "selected")
+    if($(this).hasClass("selected"))
       $(this).removeClass("selected").addClass("unselected");
     else
       $(this).removeClass("unselected").addClass("selected");
 
+    if($(this).hasClass("maincatListItem"))
+    {
+      updateSubcategories();
+    }
     updateScatterplot();
   });
 
@@ -65,6 +69,34 @@ function draw(error, data_c, data_m){
     // Create the scatterplot.
     sp = new scatterplot(dataFiltered, selectedX, selectedY);
   }
+
+  // Function for updating selected subcategories depending on which
+  // main categories are selected.
+  function updateSubcategories()
+  {
+    // Go through each main category list-item
+    $(".maincatListItem").each(function() {
+      var maincat = "[maincategory='" + $(this).attr("id") + "']";
+
+      // If the main category list item is selected
+      if($(this).hasClass("selected")) {
+        // Find all its subcategories and select them
+        $(maincat).each(function() {
+          if($(this).hasClass("unselected"))
+            $(this).trigger("click");
+        });
+      }
+      // If the main category list item is not selected
+      else if($(this).hasClass("unselected")) {
+        // Find all its subcategories and unselect them
+        $(maincat).each(function() {
+        if($(this).hasClass("selected"))
+          $(this).trigger("click").trigger("mouseleave");
+        });
+      }
+    });
+  }
+
 
 
 
