@@ -22,7 +22,7 @@ function filterData(data)
     if($(this).attr("status") == "justChanged")
     {
       // Check if it belongs to the class "unselected"
-      if(i.className == "unselected")
+      if(i.className.split(' ').pop() == "unselected")
       {
         console.log("un")
         // Find the data sample and move it from selected to unselected
@@ -31,7 +31,7 @@ function filterData(data)
         selectedData.splice(index, 1);
       }
       // Do the opposite if it belongs to class "selected"
-      else if(i.className == "selected")
+      else if(i.className.split(' ').pop() == "selected")
       {
         console.log("se")
         // Find the data sample and move it from unselected to selected

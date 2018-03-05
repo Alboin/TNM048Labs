@@ -194,12 +194,3 @@ body{
     overflow: hidden;
 
 }
-
-.scroll-menu a:hover {
-    background-color: #ccc; /* Dark grey background on mouse-over */
-}
-
-.scroll-menu a.active {
-    background-color: #4CAF50; /* Add a green color to the "active/current" link */
-    color: white;
-}

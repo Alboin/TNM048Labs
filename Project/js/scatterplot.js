@@ -189,11 +189,6 @@ function scatterplot(data, selectedX, selectedY, dataTransparent, allData)
         .style("text-anchor", "end")
         .text(function(d) { return d;});
 
-    function logit(d)
-    {
-      console.log("Hej!");
-      console.log(d);
-    }
 
     //Function originally from
     //https://gist.github.com/phoebebright/3098488

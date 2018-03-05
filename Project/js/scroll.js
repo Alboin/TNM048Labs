@@ -92,14 +92,7 @@ function scroll(data)
     return styleString;
    }
 /*
-.scroll-menu a:hover {
-    background-color: #ccc;
-}
 
-.scroll-menu a.active {
-    background-color: #4CAF50;
-    color: white;
-}
 
    var scrollItem = d3.selectAll(".listItem").on("click", function(d) {
      sp.logit(d);
