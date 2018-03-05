@@ -198,34 +198,61 @@ body{
 
 
 h3 {
-  text-align: center;
+  text-align: left;
   color: #000;
   font-size:18px;
 }
 
 
 #clearButtonMain{
-    opacity: 1.0;
+    /*opacity: 1.0;
     cursor: initial;
-    background-color: red ;
+    background-color: red ;*/
 
 }
 
 #clearButtonMain:hover {
-  background-color: #A9A9A9;
-  border: 2px solid #ccc;
+  /*background-color: #A9A9A9;
+  border: 2px solid #ccc;*/
 
 }
 
-.disabledbutton {
+.buttonActive {
+
+  position:absolute;
+  right: 40px;
+  top: 100px;
+
+  background-color: #ccc;
+  font-size: 14px;
+  text-align: center;
+  border: 2px solid #A9A9A9;
+  font-weight: bold;
+  border-radius: 8px;
+  -webkit-transition-duration: 0.4s; /* Safari */
+  transition-duration: 0.4s;
+
+  opacity: 1.0;
+  cursor: initial;
+
+}
+.buttonActive:hover{
+  background-color: #808080;
+  border: 2px solid #696969;
+}
+
+.buttonDisabled {
+    position:absolute;
+    right: 40px;
+    top: 100px;
+
     background-color: #ccc;
-    -webkit-transition-duration: 0.4s; /* Safari */
-    transition-duration: 0.4s;
     font-size: 14px;
     text-align: center;
     border: 2px solid #A9A9A9;
     font-weight: bold;
     border-radius: 8px;
+
     opacity: 0.6;
     cursor: not-allowed;
 }

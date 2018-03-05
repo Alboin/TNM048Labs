@@ -41,12 +41,36 @@ function draw(error, data_c, data_m){
   $(".scroll-menu").children().on("click", function(d)
   {
     // Switch class between selected/unselected.
-    if($(this).attr("class").split(' ').pop() == "selected")
+    if($(this).hasClass("selected"))
       $(this).removeClass("selected").addClass("unselected");
     else
       $(this).removeClass("unselected").addClass("selected");
 
+    if($(this).hasClass("maincatListItem"))
+    {
+      updateSubcategories($(this));
+    }
+
+
+    //handle the select buttons
+    $( "#buttonClear").click(function() { 
+    	clearScroll(".scroll-menu")
+    	disableButton("#buttonClear")
+    });
+
+    //deal with buttons and scrollList
+    if($(".selected").length != 0)
+    	 activateButton("#buttonClear");
+    else {
+    	disableButton("#buttonClearMain")
+    	disableButton("#buttonClearSub")
+    }
+
+
     updateScatterplot();
+
+
+
   });
 
   // When page has finished loading, reload the scatterplot.
@@ -66,8 +90,51 @@ function draw(error, data_c, data_m){
     sp = new scatterplot(dataFiltered, selectedX, selectedY);
   }
 
+  // Function for updating selected subcategories depending on which
+  // main categories are selected.
+  function updateSubcategories(maincategory)
+  {
+    // Go through each main category list-item
+    maincategory.each(function() {
+      var maincat = "[maincategory='" + maincategory.attr("id") + "']";
 
+      // If the main category list item is selected
+      if($(this).hasClass("selected")) {
+        // Find all its subcategories and select them
+        $(maincat).each(function() {
+          if($(this).hasClass("unselected"))
+            $(this).trigger("click");
+        });
+      }
+      // If the main category list item is not selected
+      else if($(this).hasClass("unselected")) {
+        // Find all its subcategories and unselect them
+        $(maincat).each(function() {
+        if($(this).hasClass("selected"))
+          $(this).trigger("click").trigger("mouseleave");
+        });
+      }
+    });
+  }
 
+  function clearScroll(scrollName)
+  {
+  	if($(".selected").length != 0)
+  	{
+  		$(scrollName).children().removeClass("selected").addClass("unselected").trigger("mouseout");
+  	}
+
+  }
+
+  function activateButton(buttonName)
+  {
+  	$(buttonName).attr("class", "buttonActive");
+  }
+
+   function disableButton(buttonName)
+  {
+	$(buttonName).attr("class", "buttonDisabled");
+  }
 
   // Correct page sizes
   $("#pie-month-info").css("height", $("#scatter-plot").height() + $("#title").height() );
