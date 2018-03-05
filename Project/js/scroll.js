@@ -32,7 +32,18 @@ function scroll(data)
 
    for(sample in sortedData)
    {
-   		var htmlstring = '<a href= "#" class="listItem" id="' + sortedData[sample].category + '">' + sortedData[sample].category + "    " + sortedData[sample].successrate + "%  </a>";
+     var greenColor = " rgba(180, 255, 180,1) ";
+     var redColor = " rgba(255, 195, 181,1) ";
+
+      var styleString =
+    "background: -moz-linear-gradient(right, " + greenColor + " 0%, " + greenColor + sortedData[sample].successrate + "%, " + redColor + (sortedData[sample].successrate + 0.01) + "%, " + redColor + " 100%);" +/* FF3.6+ */
+    "background: -webkit-gradient(linear, right top, left bottom, color-stop(0%, " + greenColor + "), color-stop(" + sortedData[sample].successrate + "%,rgba(41,137,216,0)), color-stop(" + (sortedData[sample].successrate + 0.01) + "%,rgba(255,48,48,1)), color-stop(100%,rgba(255,0,0,1)));" +/* Chrome,Safari4+ */
+    "background: -webkit-linear-gradient(right, " + greenColor + " 0%," + greenColor + sortedData[sample].successrate + "%," + redColor + (sortedData[sample].successrate + 0.01) + "%," + redColor + " 100%);" +/* Chrome10+,Safari5.1+ */
+    "background: -o-linear-gradient(right, " + greenColor + " 0%," + greenColor + sortedData[sample].successrate + "%," + redColor + (sortedData[sample].successrate + 0.01) + "%," + redColor + " 100%);" +/* Opera 11.10+ */
+    "background: -ms-linear-gradient(right, " + greenColor + " 0%, " + greenColor + sortedData[sample].successrate + "%," + redColor + (sortedData[sample].successrate + 0.01) + "%," + redColor + " 100%);" +/* IE10+ */
+    "background: linear-gradient(to right, " + greenColor + " 0%, " + greenColor + sortedData[sample].successrate + "%," + redColor + (sortedData[sample].successrate + 0.01) + "%," + redColor + " 100%);"; /* W3C */
+
+   		var htmlstring = '<a href= "#" style="' + styleString + '" class="listItem" id="' + sortedData[sample].category + '">' + sortedData[sample].category + "    " + sortedData[sample].successrate + "%  </a>";
    		//create
    		scrollList.append(htmlstring);
    }
