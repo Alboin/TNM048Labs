@@ -83,7 +83,7 @@ function piechart(data)
                 $("#selectedMonth").html(monthNames[i]);
 
                 // Display detailed data for that month.
-                $("#monthStatistics").html("Succesful projects: &nbsp;" + formatNumber(data[i].success)
+                $("#monthStatistics").html("Successful projects: &nbsp;" + formatNumber(data[i].success)
                     + "<br>Failed projects: &nbsp;" + formatNumber(data[i].failed)
                     + "<br>Success rate: &nbsp;" + percent + "%");
 

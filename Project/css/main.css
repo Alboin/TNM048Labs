@@ -155,7 +155,7 @@ body{
 
 
 #lists {
- 
+
   background-color: #dde;
   padding: 15px;
   border-radius: 10px;
@@ -163,9 +163,14 @@ body{
   border-color: #ccf;
   border-width: 1px;
   height: 100%;
-  
+
 }
 
+.listItem {
+  border-style: dotted;
+  border-width: 1px;
+  border-color: #559;
+}
 
 .scroll-menu {
     width: 100%; /* Set a width if you like */
@@ -191,26 +196,10 @@ body{
 
 }
 
-.scroll-menu a:hover {
-    background-color: #ccc; /* Dark grey background on mouse-over */
-}
-
-.scroll-menu a.active {
-    background-color: #4CAF50; /* Add a green color to the "active/current" link */
-    color: white;
-}
-
-/*
-#subscroll {
-}
-
-
-#mainscroll { 
-}
-*/
 
 h3 {
   text-align: center;
   color: #000;
   font-size:18px;
 }
+

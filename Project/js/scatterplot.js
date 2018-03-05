@@ -1,8 +1,5 @@
-function scatterplot(data, selectedX, selectedY, dataTransparent, allData)
+function scatterplot(data, selectedX, selectedY)
 {
-
-  if(dataTransparent == undefined)
-    dataTransparent = [];
 
   var div = '#scatter-plot';
 
@@ -63,8 +60,8 @@ function scatterplot(data, selectedX, selectedY, dataTransparent, allData)
 
 
     // don't want dots overlapping axis, so add in buffer to data domain
-    xScale.domain([d3.min(allData, xValue)-1, d3.max(allData, xValue)+1]);
-    yScale.domain([d3.min(allData, yValue)-1, d3.max(allData, yValue)+1]);
+    xScale.domain([d3.min(data, xValue)-1, d3.max(data, xValue)+1]);
+    yScale.domain([d3.min(data, yValue)-1, d3.max(data, yValue)+1]);
 
     // Make sure the axes have the right label depending on plotted data.
     var xAxisLabel, yAxisLabel;
@@ -109,17 +106,26 @@ function scatterplot(data, selectedX, selectedY, dataTransparent, allData)
      .attr("font-size", 26)
      .text(yAxisLabel);
 
-
  // draw dots
  svg.selectAll(".dot")
      .data(data)
    .enter().append("circle")
      .attr("class", "dot")
-     .attr("r", 4.0)
+     .attr("r", function (d) {
+       if($(".selected").length == 0)
+        return 4.0;
+       if(d.selected)
+        return 6.0;
+      return 3.0;
+     })
      .attr("cx", xMap)
      .attr("cy", yMap)
      .style("fill", function(d) { return color(cValue(d));})
-     .attr("opacity", 0.8)
+     // Distinguish the selected dots from the unselected ones.
+     .attr("opacity", function(d) {
+       if(d.selected)
+         return 0.8;
+      return 0.2;})
      .on("mouseover", function(d) {
          tooltip.transition()
               .duration(50)
@@ -135,30 +141,6 @@ function scatterplot(data, selectedX, selectedY, dataTransparent, allData)
               .style("opacity", 0);
      });
 
-     // draw transparent dots
-     svg.selectAll(".dot")
-         .data(dataTransparent)
-       .enter().append("circle")
-         .attr("class", "dot")
-         .attr("r", 4.0)
-         .attr("cx", xMap)
-         .attr("cy", yMap)
-         .style("fill", function(d) { return color(cValue(d));})
-         .attr("opacity", 0.2)
-         .on("mouseover", function(d) {
-             tooltip.transition()
-                  .duration(50)
-                  .style("opacity", .9);
-             tooltip.html(d.category/* + "<br/> (" + xValue(d)
-             + ", " + yValue(d) + ")"*/)
-                  .style("left", (d3.event.pageX + 5) + "px")
-                  .style("top", (d3.event.pageY - 28) + "px");
-         })
-         .on("mouseout", function(d) {
-             tooltip.transition()
-                  .duration(200)
-                  .style("opacity", 0);
-         });
 
      // draw legend
     var legend = svg.selectAll(".legend")
@@ -189,11 +171,6 @@ function scatterplot(data, selectedX, selectedY, dataTransparent, allData)
         .style("text-anchor", "end")
         .text(function(d) { return d;});
 
-    function logit(d)
-    {
-      console.log("Hej!");
-      console.log(d);
-    }
 
     //Function originally from
     //https://gist.github.com/phoebebright/3098488
