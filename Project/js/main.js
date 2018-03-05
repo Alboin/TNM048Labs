@@ -4,13 +4,13 @@ $("body").width($(document).width());
 
 var sp;
 var piechart;
-var scroll;
+var scrollSub, scrollMain;
 
 
 function draw(error, data_c, data_m){
   if (error) throw error;
 
-  console.log(data_c)
+  //console.log(data_c)
 
   // Format data so that numbers are numbers and not strings.
   for(sample in data_c)
@@ -29,7 +29,9 @@ function draw(error, data_c, data_m){
   // Create pie-chart
   piechart = new piechart(data_m)
   // Create scroll-lists
-  scroll = new scroll(data_c);
+  scrollSub = new scrollSubCategory(data_c);
+
+  scrollMain = new scrollMainCategory(data_c);
 
   // Set the radio-buttons to update the scatterplot on click.
   $("#Xcontrols").children().on("click", updateScatterplot);
