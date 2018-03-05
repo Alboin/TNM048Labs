@@ -47,9 +47,30 @@ function draw(error, data_c, data_m){
       $(this).removeClass("unselected").addClass("selected");
 
     if($(this).hasClass("maincatListItem"))
+    {
       updateSubcategories($(this));
+    }
+
+
+    //handle the select buttons
+    $( "#buttonClear").click(function() { 
+    	clearScroll(".scroll-menu")
+    	disableButton("#buttonClear")
+    });
+
+    //deal with buttons and scrollList
+    if($(".selected").length != 0)
+    	 activateButton("#buttonClear");
+    else {
+    	disableButton("#buttonClearMain")
+    	disableButton("#buttonClearSub")
+    }
+
 
     updateScatterplot();
+
+
+
   });
 
   // When page has finished loading, reload the scatterplot.
@@ -96,9 +117,24 @@ function draw(error, data_c, data_m){
     });
   }
 
+  function clearScroll(scrollName)
+  {
+  	if($(".selected").length != 0)
+  	{
+  		$(scrollName).children().removeClass("selected").addClass("unselected").trigger("mouseout");
+  	}
 
+  }
 
+  function activateButton(buttonName)
+  {
+  	$(buttonName).attr("class", "buttonActive");
+  }
 
+   function disableButton(buttonName)
+  {
+	$(buttonName).attr("class", "buttonDisabled");
+  }
 
   // Correct page sizes
   $("#pie-month-info").css("height", $("#scatter-plot").height() + $("#title").height());// + $(".controls").height());

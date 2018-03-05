@@ -132,6 +132,7 @@ function setHoverColors()
     var percentage = Number(tempString.replace( /^\D+/g, '').replace("%", ""));
     $(this).attr("style", generateBackgroundColor(true, percentage, true));
   });
+
 }
 
 // Generate the correct background-color based on successrate and list-item status.
