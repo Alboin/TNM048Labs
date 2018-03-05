@@ -13,10 +13,10 @@ function piechart(data)
 
 
 
-    var width = $("#pie-chart").width(),
-    height = $("#pie-chart").width(),
+    var width = $("#pie-month-info").width(),
+    height = $("#pie-month-info").width(),
     maxRadius = width / 2,
-    minRadius = 10,
+    minRadius = width / 10,
     sliceScale = 300;
 
 
