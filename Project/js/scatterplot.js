@@ -132,7 +132,7 @@ function scatterplot(data, selectedX, selectedY)
      // Distinguish the selected dots from the unselected ones.
      .attr("opacity", function(d) {
        if(d.selected)
-         return 0.8;
+         return 0.9;
       return 0.2;})
      .on("mouseover", function(d) {
          tooltip.transition()
@@ -169,11 +169,13 @@ function scatterplot(data, selectedX, selectedY)
         .attr("x", width - 10)
         .attr("width", 8)
         .attr("height", 8)
-        //.style("fill", color);
-        .style("fill", function(d) {
-          console.log(color(d))
-          console.log(d)
-          return color(d);
+        .style("fill", color);
+
+        $(".listItem").each(function() {
+          $(this).find(".catColor")
+            .css("background-color", color($(this).attr("maincategory")))
+            .css("opacity", 0.7)
+            .css("filter", "hue-rotate(100)");
         });
 
     // draw legend text

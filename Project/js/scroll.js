@@ -29,12 +29,12 @@ function scrollSubCategory(data)
    		var htmlstring = '<a href= "#" style="'
           + generateBackgroundColor(false, sortedData[sample].successrate)
           + '" class="listItem unselected" id="' + sortedData[sample].category + '">'
-
+          + "<div class='row'><div class='col-sm-1 catColor'></div><div class='col-sm-10'>"
           + sortedData[sample].category + "    " + sortedData[sample].successrate
-          + "%  </a>";
+          + "%</div></div></a>";
    		//create
    		scrollList.append(htmlstring);
-      scrollList.children().last().attr("maincategory", sortedData[sample].maincategory);
+      scrollList.children().last().attr("maincategory", sortedData[sample].maincategory).attr("percentage", sortedData[sample].successrate);
    }
    setHoverColors();
 }
@@ -78,10 +78,20 @@ function scrollMainCategory(data)
 
    for(sample in mainSumData)
    {
-   		var htmlstring = '<a href= "#" style="' + generateBackgroundColor(false, mainSumData[sample][1]) + '" class="listItem maincatListItem unselected" id="' + mainSumData[sample][0] + '">'
-   							+ mainSumData[sample][0] + "    " + mainSumData[sample][1] + "%  </a>";
-   		//create
+     var htmlstring = '<a href= "#" style="'
+        + generateBackgroundColor(false, mainSumData[sample][1])
+        + '" class="listItem maincatListItem unselected" id="' + mainSumData[sample][0] + '">'
+        + "<div class='row'><div class='col-sm-1 catColor'></div><div class='col-sm-10'>"
+        + mainSumData[sample][0] + "    " + mainSumData[sample][1]
+        + "%</div></div></a>";
+
+
+   		//var htmlstring = '<a href= "#" style="' + generateBackgroundColor(false, mainSumData[sample][1]) + '" class="listItem maincatListItem unselected" id="' + mainSumData[sample][0] + '">'
+   		//					+ mainSumData[sample][0] + "    " + mainSumData[sample][1] + "%  </a>";
+
+      //create
    		scrollList.append(htmlstring);
+      scrollList.children().last().attr("maincategory", mainSumData[sample][0]).attr("percentage",  mainSumData[sample][1]);
    }
 
    setHoverColors();
@@ -92,9 +102,11 @@ function setHoverColors()
 {
   // Following rows make sure that the color of the list-items changes upon
   // hovering and selection.
-  $(".listItem").mouseover(function() {
-    var tempString = $(this).html().substring(2, $(this).html().length);
+  $(".listItem")
+  .mouseover(function() {
+    var tempString = $(this).attr("percentage");
     var percentage = Number(tempString.replace( /^\D+/g, '').replace("%", ""));
+
 
     if($(this).hasClass("selected"))
     {
@@ -104,7 +116,7 @@ function setHoverColors()
     }
   })
   .mouseleave(function() {
-    var tempString = $(this).html().substring(2, $(this).html().length);
+    var tempString = $(this).attr("percentage");
     var percentage = Number(tempString.replace( /^\D+/g, '').replace("%", ""));
 
     if($(this).hasClass("selected"))
@@ -116,7 +128,7 @@ function setHoverColors()
 
   })
   .on("click", function() {
-    var tempString = $(this).html().substring(2, $(this).html().length);
+    var tempString = $(this).attr("percentage");
     var percentage = Number(tempString.replace( /^\D+/g, '').replace("%", ""));
     $(this).attr("style", generateBackgroundColor(true, percentage, true));
   });
@@ -140,8 +152,8 @@ function generateBackgroundColor(hover, percentage, click)
   }
   else if(click)
   {
-    greenColor = " rgba(90, 221, 90,1) ";
-    redColor = " rgba(209, 108, 85, 1) ";
+    greenColor = " rgba(90, 221, 90,0.8) ";
+    redColor = " rgba(209, 108, 85, 0.8) ";
   }
 
 
