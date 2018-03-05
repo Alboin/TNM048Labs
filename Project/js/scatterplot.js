@@ -20,7 +20,7 @@ function scatterplot(data, selectedX, selectedY)
     // add the tooltip area to the webpage
   var tooltip = d3.select("body").append("div")
     .attr("class", "tooltip")
-    .style("width", 100)
+    .style("width", 200)
     .style("opacity", 0);
 
 
@@ -138,8 +138,24 @@ function scatterplot(data, selectedX, selectedY)
          tooltip.transition()
               .duration(50)
               .style("opacity", .9);
-         tooltip.html(d.category/* + "<br/> (" + xValue(d)
-         + ", " + yValue(d) + ")"*/)
+
+        var xText, yText;
+
+        if(selectedX == "backers")
+          xText = formatNumber(Math.round(xValue(d))) + " backers/project";
+        else if(selectedX == "goal")
+          xText = "Goal: $" + formatNumber(Math.round(xValue(d)));
+        else
+          xText = "Pledged: $" + formatNumber(Math.round(xValue(d)));
+        if(selectedY == "backers")
+          yText = formatNumber(Math.round(yValue(d))) + " backers/project";
+        else if(selectedY == "goal")
+          yText = "Goal: $" + formatNumber(Math.round(yValue(d)));
+        else
+          yText = "Pledged: $" + formatNumber(Math.round(yValue(d)));
+
+
+         tooltip.html("<b>" + d.category + "</b><br/>" + xText + "<br>" + yText)
               .style("left", (d3.event.pageX + 5) + "px")
               .style("top", (d3.event.pageY - 28) + "px");
      })
