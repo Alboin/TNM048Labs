@@ -1,9 +1,3 @@
-// Load data
-queue()
-  .defer(d3.csv,'data/categories.csv')
-  .defer(d3.csv,'data/months.csv')
-  .await(draw);
-
 $("body").height($(document).height());
 $("body").width($(document).width());
 
@@ -50,9 +44,6 @@ function draw(error, data_c, data_m){
     else
       $(this).removeClass("unselected").addClass("selected");
 
-    // Add a class to tell that this item just changed.
-    $(this).attr("status", "justChanged");
-
     updateScatterplot();
   });
 
@@ -84,3 +75,9 @@ function draw(error, data_c, data_m){
   $("#logo").height(titleHeight);
 
 }
+
+// Load data
+queue()
+  .defer(d3.csv,'data/categories.csv')
+  .defer(d3.csv,'data/months.csv')
+  .await(draw);

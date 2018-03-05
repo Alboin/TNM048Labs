@@ -1,7 +1,6 @@
 function scatterplot(data, selectedX, selectedY)
 {
 
-  console.log(data)
   var div = '#scatter-plot';
 
   //The base-code for the scatterplot is from
@@ -107,25 +106,26 @@ function scatterplot(data, selectedX, selectedY)
      .attr("font-size", 26)
      .text(yAxisLabel);
 
-
  // draw dots
  svg.selectAll(".dot")
      .data(data)
    .enter().append("circle")
      .attr("class", "dot")
-     .attr("r", 4.0)
+     .attr("r", function (d) {
+       if($(".selected").length == 0)
+        return 4.0;
+       if(d.selected)
+        return 6.0;
+      return 3.0;
+     })
      .attr("cx", xMap)
      .attr("cy", yMap)
      .style("fill", function(d) { return color(cValue(d));})
      // Distinguish the selected dots from the unselected ones.
      .attr("opacity", function(d) {
-       console.log(d.selected)
-       var op = 0.8;
-       if(!d.selected)
-       {
-         op = 0.5;
-       }
-      return op;})
+       if(d.selected)
+         return 0.8;
+      return 0.2;})
      .on("mouseover", function(d) {
          tooltip.transition()
               .duration(50)

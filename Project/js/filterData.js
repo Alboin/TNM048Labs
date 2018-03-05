@@ -17,26 +17,19 @@ function filterData(data)
   // Loop over the list-items
   $(".scroll-menu").children().each(function(d, i)
   {
-    if($(this).attr("status") == "justChanged")
-    {
-      // Find the data sample and move it from selected to unselected
-      var index = findCategoryIndex(i.id, data);
+    // Find the data sample and move it from selected to unselected
+    var index = findCategoryIndex(i.id, data);
 
-      // Check if it belongs to the class "unselected"
-      if(i.className.split(' ').pop() == "unselected")
-      {
-        console.log("un")
-        // Set the data-sample's status to not selected.
-        data[index]["selected"] = false;
-      }
-      // Do the opposite if it belongs to class "selected"
-      else if(i.className.split(' ').pop() == "selected")
-      {
-        console.log("se")
-        data[index]["selected"] = true;
-      }
-      // Remove the "justChanged"-status from the object
-      $(this).removeAttr("status");
+    // Check if it belongs to the class "unselected"
+    if(i.className.split(' ').pop() == "unselected")
+    {
+      // Set the data-sample's status to not selected.
+      data[index]["selected"] = false;
+    }
+    // Do the opposite if it belongs to class "selected"
+    else if(i.className.split(' ').pop() == "selected")
+    {
+      data[index]["selected"] = true;
     }
   });
 
