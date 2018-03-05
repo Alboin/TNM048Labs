@@ -6,6 +6,8 @@ var sp;
 var piechart;
 var scrollSub, scrollMain;
 
+var zoom = 0;
+
 
 function draw(error, data_c, data_m){
   if (error) throw error;
@@ -80,7 +82,9 @@ function draw(error, data_c, data_m){
     var selectedX = $('input[name=x-scale]:checked').val();
     var selectedY = $('input[name=y-scale]:checked').val();
     // Create the scatterplot.
-    sp = new scatterplot(dataFiltered, selectedX, selectedY);
+    sp = new scatterplot(dataFiltered, selectedX, selectedY, zoom);
+    addScroll();
+    zoom = 0;
   }
 
   // Function for updating selected subcategories depending on which
@@ -125,6 +129,22 @@ function draw(error, data_c, data_m){
   {
 	$(buttonName).attr("class", "buttonDisabled");
   }
+
+  function addScroll()
+  {
+    /*$(document).ready(function(){
+        $('#scatterplot-svg').bind('DOMMouseScroll mousewheel', function(e){
+          zoom = Math.sign(e.originalEvent.detail);
+          console.log(zoom)
+
+          updateScatterplot();
+          console.log(zoom)
+        });
+    });*/
+  }
+
+
+
 
   // Correct page sizes
   $("#pie-month-info").css("height", $("#scatter-plot").height() + $("#title").height());// + $(".controls").height());

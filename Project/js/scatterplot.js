@@ -1,4 +1,4 @@
-function scatterplot(data, selectedX, selectedY)
+function scatterplot(data, selectedX, selectedY, zoom)
 {
 
   var div = '#scatter-plot';
@@ -52,6 +52,7 @@ function scatterplot(data, selectedX, selectedY)
 
   // add the graph canvas to the body of the webpage
   var svg = d3.select(div).append("svg")
+      .attr("id", "scatterplot-svg")
       .attr("width", width + margin.left + margin.right)
       .attr("height", height + margin.top + margin.bottom)
     .append("g")
