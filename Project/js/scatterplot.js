@@ -169,7 +169,12 @@ function scatterplot(data, selectedX, selectedY)
         .attr("x", width - 10)
         .attr("width", 8)
         .attr("height", 8)
-        .style("fill", color);
+        //.style("fill", color);
+        .style("fill", function(d) {
+          console.log(color(d))
+          console.log(d)
+          return color(d);
+        });
 
     // draw legend text
     legend.append("text")

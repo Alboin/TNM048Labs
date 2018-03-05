@@ -26,24 +26,22 @@ function scrollSubCategory(data)
 
    for(sample in sortedData)
    {
+   		var htmlstring = '<a href= "#" style="'
+          + generateBackgroundColor(false, sortedData[sample].successrate)
+          + '" class="listItem unselected" id="' + sortedData[sample].category + '">'
 
-   		var htmlstring = '<a href= "#" style="' + generateBackgroundColor(false, sortedData[sample].successrate) + '" class="listItem unselected" id="' + sortedData[sample].category + '">' + sortedData[sample].category + "    " + sortedData[sample].successrate + "%  </a>";
+          + sortedData[sample].category + "    " + sortedData[sample].successrate
+          + "%  </a>";
    		//create
    		scrollList.append(htmlstring);
       scrollList.children().last().attr("maincategory", sortedData[sample].maincategory);
-
    }
-
-
    setHoverColors();
-
-
 }
 
 function scrollMainCategory(data)
 {
-
-	  // Format data so that numbers are numbers and not strings.
+	// Format data so that numbers are numbers and not strings.
   for(sample in data)
     for(point in data[sample])
       if(!isNaN(Number(data[sample][point])))
@@ -51,11 +49,9 @@ function scrollMainCategory(data)
 
     //var div = '#lists';
     var scrollList = $("#mainscroll");
-
     var dataObjSum = {}; //[maincategory, success, failed, successrate]
     var mainSumData = []; //= new Array(dataObjSum);
 
-        //
     data.forEach(function(sample) {
     	   //check if the maincategory is undefined
     	   if(dataObjSum[sample.maincategory] == undefined)
@@ -68,12 +64,11 @@ function scrollMainCategory(data)
 				dataObjSum[sample.maincategory].failed += sample.failed;
 				dataObjSum[sample.maincategory].successrate = Math.round(10000* dataObjSum[sample.maincategory].success / (dataObjSum[sample.maincategory].success + dataObjSum[sample.maincategory].failed)) /100;
 
-        });
+   });
 
     //sort the data
-    for (sample in dataObjSum) {
+    for (sample in dataObjSum)
 	    mainSumData.push([sample, dataObjSum[sample].successrate]);
-	}
 
     mainSumData.sort(function(a, b) {
     		return parseFloat(b[1]) - parseFloat(a[1]);
@@ -101,7 +96,7 @@ function setHoverColors()
     var tempString = $(this).html().substring(2, $(this).html().length);
     var percentage = Number(tempString.replace( /^\D+/g, '').replace("%", ""));
 
-    if($(this).attr("class").split(' ').pop() == "selected")
+    if($(this).hasClass("selected"))
     {
       $(this).attr("style", generateBackgroundColor(true, percentage, true));
     } else {
@@ -112,7 +107,7 @@ function setHoverColors()
     var tempString = $(this).html().substring(2, $(this).html().length);
     var percentage = Number(tempString.replace( /^\D+/g, '').replace("%", ""));
 
-    if($(this).attr("class").split(' ').pop() == "selected")
+    if($(this).hasClass("selected"))
     {
       $(this).attr("style", generateBackgroundColor(false, percentage, true));
     } else {
