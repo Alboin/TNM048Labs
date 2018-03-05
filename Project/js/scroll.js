@@ -1,5 +1,3 @@
-//credit to  Bill White for his Virtual Scroller
-//http://www.billdwhite.com/wordpress/2014/05/17/d3-scalability-virtual-scrolling-for-large-visualizations/
 function scrollSubCategory(data)
 {
 	  // Format data so that numbers are numbers and not strings.
