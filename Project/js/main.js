@@ -40,10 +40,10 @@ function draw(error, data_c, data_m){
   $(".scroll-menu").children().on("click", function(d)
   {
     // Switch class between selected/unselected.
-    if($(this).attr("class") == "selected")
-      $(this).removeClass("selected").attr("class", "unselected");
+    if($(this).attr("class").split(' ').pop() == "selected")
+      $(this).removeClass("selected").addClass("unselected");
     else
-      $(this).removeClass("unselected").attr("class", "selected");
+      $(this).removeClass("unselected").addClass("selected");
 
     // Add a class to tell that this item just changed.
     $(this).attr("status", "justChanged");
