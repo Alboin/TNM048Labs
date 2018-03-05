@@ -57,7 +57,13 @@ function scatterplot(data, selectedX, selectedY)
     .append("g")
       .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
+      var x = d3.scale.linear()
+          .domain([-width / 2, width / 2])
+          .range([0, width]);
 
+      var y = d3.scale.linear()
+          .domain([-height / 2, height / 2])
+          .range([height, 0]);
 
     // don't want dots overlapping axis, so add in buffer to data domain
     xScale.domain([d3.min(data, xValue)-1, d3.max(data, xValue)+1]);
@@ -77,6 +83,8 @@ function scatterplot(data, selectedX, selectedY)
       yAxisLabel = "Goal ($)";
     else
       yAxisLabel = "Pledged ($)";
+
+      //svg.append("g").call(d3.behavior.zoom().x(x).y(y).scaleExtent([1, 8]).on("zoom", function() { zoom(); console.log("Jek")}))
 
     // x-axis
  svg.append("g")
@@ -171,6 +179,10 @@ function scatterplot(data, selectedX, selectedY)
         .style("text-anchor", "end")
         .text(function(d) { return d;});
 
+        function zoom() {
+          svg.select(".x.axis").call(xAxis);
+          svg.select(".y.axis").call(yAxis);
+        }
 
     //Function originally from
     //https://gist.github.com/phoebebright/3098488

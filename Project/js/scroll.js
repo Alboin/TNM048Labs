@@ -44,7 +44,13 @@ function scroll(data)
    $(".listItem").mouseover(function() {
      var tempString = $(this).html();
      var percentage = Number(tempString.replace( /^\D+/g, '').replace("%", ""));
-     $(this).attr("style", generateBackgroundColor(true, percentage));
+
+     if($(this).attr("class").split(' ').pop() == "selected")
+     {
+       $(this).attr("style", generateBackgroundColor(true, percentage, true));
+     } else {
+       $(this).attr("style", generateBackgroundColor(true, percentage, false));
+     }
    })
    .mouseleave(function() {
      var tempString = $(this).html();
@@ -61,7 +67,7 @@ function scroll(data)
    .on("click", function() {
      var tempString = $(this).html();
      var percentage = Number(tempString.replace( /^\D+/g, '').replace("%", ""));
-     $(this).attr("style", generateBackgroundColor(true, percentage));
+     $(this).attr("style", generateBackgroundColor(true, percentage, true));
    });
 
    // Generate the correct background-color based on successrate and list-item status.
@@ -70,7 +76,12 @@ function scroll(data)
      var greenColor = " rgba(180, 255, 180,1) ";
      var redColor = " rgba(255, 195, 181,1) ";
 
-     if(hover)
+     if(click && hover)
+     {
+       greenColor = " rgba(110, 240, 110,1) ";
+       redColor = " rgba(230, 130, 110, 1) ";
+     }
+     else if(hover)
      {
        greenColor = " rgba(140, 255, 140,1) ";
        redColor = " rgba(255, 157, 135, 1) ";
@@ -80,6 +91,7 @@ function scroll(data)
        greenColor = " rgba(90, 221, 90,1) ";
        redColor = " rgba(209, 108, 85, 1) ";
      }
+
 
       var styleString =
     "background: -moz-linear-gradient(right, " + greenColor + " 0%, " + greenColor + percentage + "%, " + redColor + (percentage + 0.01) + "%, " + redColor + " 100%);" +/* FF3.6+ */
