@@ -110,27 +110,25 @@ function scrollMainCategory(data)
       if(!isNaN(Number(data[sample][point])))
         data[sample][point] = Number(data[sample][point]);
 
-
-
     //var div = '#lists';
     var scrollList = $("#mainscroll");
 
     var dataObjSum = {}; //[maincategory, success, failed, successrate]
     var mainSumData = []; //= new Array(dataObjSum);
 
-        // 
+        //
     data.forEach(function(sample) {
     	   //check if the maincategory is undefined
     	   if(dataObjSum[sample.maincategory] == undefined)
     	   {
     	   		//if undefined, set to an empty dataObjSum
     	   		dataObjSum[sample.maincategory] = {"success":sample.success, "failed": sample.failed, "successrate": 0.0};
-    	   } 
+    	   }
 	    	   //add the num of failed and succeeded projects
 				dataObjSum[sample.maincategory].success += sample.success;
-				dataObjSum[sample.maincategory].failed += sample.failed;  
-				dataObjSum[sample.maincategory].successrate = Math.round(10000* dataObjSum[sample.maincategory].success / (dataObjSum[sample.maincategory].success + dataObjSum[sample.maincategory].failed)) /100;   	
- 	
+				dataObjSum[sample.maincategory].failed += sample.failed;
+				dataObjSum[sample.maincategory].successrate = Math.round(10000* dataObjSum[sample.maincategory].success / (dataObjSum[sample.maincategory].success + dataObjSum[sample.maincategory].failed)) /100;
+
         });
 
     //sort the data
@@ -146,7 +144,7 @@ function scrollMainCategory(data)
 
    for(sample in mainSumData)
    {
-   		var htmlstring = '<a href= "#" class="listItem" id="' + mainSumData[sample][0] + '">' 
+   		var htmlstring = '<a href= "#" class="listItem" id="' + mainSumData[sample][0] + '">'
    							+ mainSumData[sample][0] + "    " + mainSumData[sample][1] + "%  </a>";
    		//create
    		scrollList.append(htmlstring);
