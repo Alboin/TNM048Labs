@@ -51,27 +51,20 @@ function draw(error, data_c, data_m){
       updateSubcategories($(this));
     }
 
-
-    //handle the select buttons
-    $( "#buttonClear").click(function() { 
-    	clearScroll(".scroll-menu")
-    	disableButton("#buttonClear")
-    });
-
-    //deal with buttons and scrollList
     if($(".selected").length != 0)
-    	 activateButton("#buttonClear");
-    else {
-    	disableButton("#buttonClearMain")
-    	disableButton("#buttonClearSub")
-    }
-
+       activateButton("#buttonClear");
 
     updateScatterplot();
-
-
-
   });
+
+  //handle the select buttons
+  $( "#buttonClear").click(function() {
+    clearScroll(".scroll-menu");
+    disableButton("#buttonClear");
+    updateScatterplot();
+  });
+
+
 
   // When page has finished loading, reload the scatterplot.
   $(document).ready(updateScatterplot);
@@ -120,10 +113,7 @@ function draw(error, data_c, data_m){
   function clearScroll(scrollName)
   {
   	if($(".selected").length != 0)
-  	{
   		$(scrollName).children().removeClass("selected").addClass("unselected").trigger("mouseout");
-  	}
-
   }
 
   function activateButton(buttonName)
