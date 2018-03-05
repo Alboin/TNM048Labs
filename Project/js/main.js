@@ -137,11 +137,15 @@ function draw(error, data_c, data_m){
   }
 
   // Correct page sizes
-  $("#pie-month-info").css("height", $("#scatter-plot").height() + $("#title").height() );
+  $("#pie-month-info").css("height", $("#scatter-plot").height() + $("#title").height());// + $(".controls").height());
   $("#pie-month-info").css("min-height", $("#monthInfo").position().top + $("#monthInfo").height() + $("#title").height() );
   var titleHeight = $("#title").height();
-  $("#title").html("<img id='logo' src='Kickstarter_logo.svg.png'>&nbsp; project statistics");
+  $("#title").html("<a href='https://www.kickstarter.com/'><img id='logo' src='Kickstarter_logo.svg.png'></a>&nbsp; project statistics");
   $("#logo").height(titleHeight);
+  $("#subscroll").height($("#lists").height() - $("#subscroll").position().top - 15); //15 is the top padding of #lists
+  // Add number of main- and sub-categories to the titles.
+  $("#title-main-cat").html($("#title-main-cat").html() + " (" + $(".maincatListItem").length + ")");
+  $("#title-sub-cat").html($("#title-sub-cat").html() + " (" + ($(".listItem").length - $(".maincatListItem").length) + ")");
 
 }
 

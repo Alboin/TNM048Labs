@@ -1,3 +1,6 @@
+img:hover {
+  cursor: pointer;
+}
 
 .background path {
   fill: none;
@@ -52,6 +55,9 @@
   background-color: #dde;
   padding: 15px;
   border-radius: 10px;
+  border-style: solid;
+  border-color: #ccf;
+  border-width: 1px;
 }
 
 h4 {
@@ -131,9 +137,14 @@ path:hover {
 {
   background-color: #dde;
   border-radius: 10px;
+  border-style: solid;
+  border-color: #ccf;
+  border-width: 1px;
   margin-left: 30px;
   padding-top: 40px;
+  padding-bottom: 20px;
   padding-left: 20px;
+  height: 100%;
 }
 
 h1 {
@@ -157,13 +168,19 @@ body{
 #lists {
 
   background-color: #dde;
-  padding: 15px;
+  padding-left: 15px;
+  padding-right: 15px;
+  padding-top: 15px;
   border-radius: 10px;
   border-style: solid;
   border-color: #ccf;
   border-width: 1px;
   height: 100%;
 
+}
+
+.catColor {
+  opacity: 0;
 }
 
 .listItem {
@@ -203,25 +220,10 @@ h3 {
   font-size:18px;
 }
 
-
-#clearButtonMain{
-    /*opacity: 1.0;
-    cursor: initial;
-    background-color: red ;*/
-
-}
-
-#clearButtonMain:hover {
-  /*background-color: #A9A9A9;
-  border: 2px solid #ccc;*/
-
-}
-
 .buttonActive {
-
   position:absolute;
-  right: 40px;
-  top: 100px;
+  right: 30px;
+  top: 80px;
 
   background-color: #ccc;
   font-size: 14px;
@@ -243,8 +245,8 @@ h3 {
 
 .buttonDisabled {
     position:absolute;
-    right: 40px;
-    top: 100px;
+    right: 30px;
+    top: 80px;
 
     background-color: #ccc;
     font-size: 14px;

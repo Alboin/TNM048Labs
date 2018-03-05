@@ -26,24 +26,22 @@ function scrollSubCategory(data)
 
    for(sample in sortedData)
    {
-
-   		var htmlstring = '<a href= "#" style="' + generateBackgroundColor(false, sortedData[sample].successrate) + '" class="listItem unselected" id="' + sortedData[sample].category + '">' + sortedData[sample].category + "    " + sortedData[sample].successrate + "%  </a>";
+   		var htmlstring = '<a href= "#" style="'
+          + generateBackgroundColor(false, sortedData[sample].successrate)
+          + '" class="listItem unselected" id="' + sortedData[sample].category + '">'
+          + "<div class='row'><div class='col-sm-1 catColor'></div><div class='col-sm-10'>"
+          + sortedData[sample].category + "    " + sortedData[sample].successrate
+          + "%</div></div></a>";
    		//create
    		scrollList.append(htmlstring);
-      scrollList.children().last().attr("maincategory", sortedData[sample].maincategory);
-
+      scrollList.children().last().attr("maincategory", sortedData[sample].maincategory).attr("percentage", sortedData[sample].successrate);
    }
-
-
    setHoverColors();
-
-
 }
 
 function scrollMainCategory(data)
 {
-
-	  // Format data so that numbers are numbers and not strings.
+	// Format data so that numbers are numbers and not strings.
   for(sample in data)
     for(point in data[sample])
       if(!isNaN(Number(data[sample][point])))
@@ -51,11 +49,9 @@ function scrollMainCategory(data)
 
     //var div = '#lists';
     var scrollList = $("#mainscroll");
-
     var dataObjSum = {}; //[maincategory, success, failed, successrate]
     var mainSumData = []; //= new Array(dataObjSum);
 
-        //
     data.forEach(function(sample) {
     	   //check if the maincategory is undefined
     	   if(dataObjSum[sample.maincategory] == undefined)
@@ -68,12 +64,11 @@ function scrollMainCategory(data)
 				dataObjSum[sample.maincategory].failed += sample.failed;
 				dataObjSum[sample.maincategory].successrate = Math.round(10000* dataObjSum[sample.maincategory].success / (dataObjSum[sample.maincategory].success + dataObjSum[sample.maincategory].failed)) /100;
 
-        });
+   });
 
     //sort the data
-    for (sample in dataObjSum) {
+    for (sample in dataObjSum)
 	    mainSumData.push([sample, dataObjSum[sample].successrate]);
-	}
 
     mainSumData.sort(function(a, b) {
     		return parseFloat(b[1]) - parseFloat(a[1]);
@@ -83,10 +78,20 @@ function scrollMainCategory(data)
 
    for(sample in mainSumData)
    {
-   		var htmlstring = '<a href= "#" style="' + generateBackgroundColor(false, mainSumData[sample][1]) + '" class="listItem maincatListItem unselected" id="' + mainSumData[sample][0] + '">'
-   							+ mainSumData[sample][0] + "    " + mainSumData[sample][1] + "%  </a>";
-   		//create
+     var htmlstring = '<a href= "#" style="'
+        + generateBackgroundColor(false, mainSumData[sample][1])
+        + '" class="listItem maincatListItem unselected" id="' + mainSumData[sample][0] + '">'
+        + "<div class='row'><div class='col-sm-1 catColor'></div><div class='col-sm-10'>"
+        + mainSumData[sample][0] + "    " + mainSumData[sample][1]
+        + "%</div></div></a>";
+
+
+   		//var htmlstring = '<a href= "#" style="' + generateBackgroundColor(false, mainSumData[sample][1]) + '" class="listItem maincatListItem unselected" id="' + mainSumData[sample][0] + '">'
+   		//					+ mainSumData[sample][0] + "    " + mainSumData[sample][1] + "%  </a>";
+
+      //create
    		scrollList.append(htmlstring);
+      scrollList.children().last().attr("maincategory", mainSumData[sample][0]).attr("percentage",  mainSumData[sample][1]);
    }
 
    setHoverColors();
@@ -97,11 +102,13 @@ function setHoverColors()
 {
   // Following rows make sure that the color of the list-items changes upon
   // hovering and selection.
-  $(".listItem").mouseover(function() {
-    var tempString = $(this).html().substring(2, $(this).html().length);
+  $(".listItem")
+  .mouseover(function() {
+    var tempString = $(this).attr("percentage");
     var percentage = Number(tempString.replace( /^\D+/g, '').replace("%", ""));
 
-    if($(this).attr("class").split(' ').pop() == "selected")
+
+    if($(this).hasClass("selected"))
     {
       $(this).attr("style", generateBackgroundColor(true, percentage, true));
     } else {
@@ -109,10 +116,10 @@ function setHoverColors()
     }
   })
   .mouseleave(function() {
-    var tempString = $(this).html().substring(2, $(this).html().length);
+    var tempString = $(this).attr("percentage");
     var percentage = Number(tempString.replace( /^\D+/g, '').replace("%", ""));
 
-    if($(this).attr("class").split(' ').pop() == "selected")
+    if($(this).hasClass("selected"))
     {
       $(this).attr("style", generateBackgroundColor(false, percentage, true));
     } else {
@@ -121,7 +128,7 @@ function setHoverColors()
 
   })
   .on("click", function() {
-    var tempString = $(this).html().substring(2, $(this).html().length);
+    var tempString = $(this).attr("percentage");
     var percentage = Number(tempString.replace( /^\D+/g, '').replace("%", ""));
     $(this).attr("style", generateBackgroundColor(true, percentage, true));
   });
@@ -146,8 +153,8 @@ function generateBackgroundColor(hover, percentage, click)
   }
   else if(click)
   {
-    greenColor = " rgba(90, 221, 90,1) ";
-    redColor = " rgba(209, 108, 85, 1) ";
+    greenColor = " rgba(90, 221, 90,0.8) ";
+    redColor = " rgba(209, 108, 85, 0.8) ";
   }
 
 
