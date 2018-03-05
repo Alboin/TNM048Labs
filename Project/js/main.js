@@ -20,9 +20,14 @@ function draw(error, data_c, data_m){
 
   // Format data so that numbers are numbers and not strings.
   for(sample in data_c)
+  {
     for(point in data_c[sample])
       if(!isNaN(Number(data_c[sample][point])))
         data_c[sample][point] = Number(data_c[sample][point]);
+    // Add an element to the data, used for "brushing"
+    data_c[sample]["selected"] = true;
+  }
+
 
   // This function creates the scatterplot with the user-defined data.
   updateScatterplot();
@@ -51,6 +56,9 @@ function draw(error, data_c, data_m){
     updateScatterplot();
   });
 
+  // When page has finished loading, reload the scatterplot.
+  $(document).ready(updateScatterplot);
+
   function updateScatterplot()
   {
     var dataFiltered = filterData(data_c);
@@ -62,7 +70,7 @@ function draw(error, data_c, data_m){
     var selectedX = $('input[name=x-scale]:checked').val();
     var selectedY = $('input[name=y-scale]:checked').val();
     // Create the scatterplot.
-    sp = new scatterplot(dataFiltered[0], selectedX, selectedY, dataFiltered[1], data_c);
+    sp = new scatterplot(dataFiltered, selectedX, selectedY);
   }
 
 

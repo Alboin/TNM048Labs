@@ -1,9 +1,7 @@
-function scatterplot(data, selectedX, selectedY, dataTransparent, allData)
+function scatterplot(data, selectedX, selectedY)
 {
 
-  if(dataTransparent == undefined)
-    dataTransparent = [];
-
+  console.log(data)
   var div = '#scatter-plot';
 
   //The base-code for the scatterplot is from
@@ -63,8 +61,8 @@ function scatterplot(data, selectedX, selectedY, dataTransparent, allData)
 
 
     // don't want dots overlapping axis, so add in buffer to data domain
-    xScale.domain([d3.min(allData, xValue)-1, d3.max(allData, xValue)+1]);
-    yScale.domain([d3.min(allData, yValue)-1, d3.max(allData, yValue)+1]);
+    xScale.domain([d3.min(data, xValue)-1, d3.max(data, xValue)+1]);
+    yScale.domain([d3.min(data, yValue)-1, d3.max(data, yValue)+1]);
 
     // Make sure the axes have the right label depending on plotted data.
     var xAxisLabel, yAxisLabel;
@@ -119,7 +117,15 @@ function scatterplot(data, selectedX, selectedY, dataTransparent, allData)
      .attr("cx", xMap)
      .attr("cy", yMap)
      .style("fill", function(d) { return color(cValue(d));})
-     .attr("opacity", 0.8)
+     // Distinguish the selected dots from the unselected ones.
+     .attr("opacity", function(d) {
+       console.log(d.selected)
+       var op = 0.8;
+       if(!d.selected)
+       {
+         op = 0.5;
+       }
+      return op;})
      .on("mouseover", function(d) {
          tooltip.transition()
               .duration(50)
@@ -135,30 +141,6 @@ function scatterplot(data, selectedX, selectedY, dataTransparent, allData)
               .style("opacity", 0);
      });
 
-     // draw transparent dots
-     svg.selectAll(".dot")
-         .data(dataTransparent)
-       .enter().append("circle")
-         .attr("class", "dot")
-         .attr("r", 4.0)
-         .attr("cx", xMap)
-         .attr("cy", yMap)
-         .style("fill", function(d) { return color(cValue(d));})
-         .attr("opacity", 0.2)
-         .on("mouseover", function(d) {
-             tooltip.transition()
-                  .duration(50)
-                  .style("opacity", .9);
-             tooltip.html(d.category/* + "<br/> (" + xValue(d)
-             + ", " + yValue(d) + ")"*/)
-                  .style("left", (d3.event.pageX + 5) + "px")
-                  .style("top", (d3.event.pageY - 28) + "px");
-         })
-         .on("mouseout", function(d) {
-             tooltip.transition()
-                  .duration(200)
-                  .style("opacity", 0);
-         });
 
      // draw legend
     var legend = svg.selectAll(".legend")

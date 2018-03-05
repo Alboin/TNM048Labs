@@ -1,55 +1,48 @@
 function filterData(data)
 {
-
-  // Variables for the scroll-list
-  var selectedData = data;
-  var unselectedData = [];
-
-  // Check the list for any selections, if there isn't any, make all data selected.
+  // If no single element is selected from list, make all dots/sample selected.
   if($(".selected").length == 0)
-    return [selectedData, unselectedData];
-
-  if($(".selected").length == 1)
   {
-    unselectedData = data;
-    selectedData = [];
+    for(sample in data)
+      data[sample]["selected"] = true;
+    return data;
   }
 
+
+  // If only one element has been selected, make all other elements unselected.
+  if($(".selected").length == 1)
+    for(sample in data)
+      data[sample]["selected"] = false;
 
   // Loop over the list-items
   $(".scroll-menu").children().each(function(d, i)
   {
     if($(this).attr("status") == "justChanged")
     {
+      // Find the data sample and move it from selected to unselected
+      var index = findCategoryIndex(i.id, data);
+
       // Check if it belongs to the class "unselected"
       if(i.className.split(' ').pop() == "unselected")
       {
         console.log("un")
-        // Find the data sample and move it from selected to unselected
-        var index = findCategoryIndex(i.id, selectedData);
-        unselectedData.push(selectedData[index]);
-        selectedData.splice(index, 1);
+        // Set the data-sample's status to not selected.
+        data[index]["selected"] = false;
       }
       // Do the opposite if it belongs to class "selected"
       else if(i.className.split(' ').pop() == "selected")
       {
         console.log("se")
-        // Find the data sample and move it from unselected to selected
-        var index = findCategoryIndex(i.id, unselectedData);
-        selectedData.push(unselectedData[index]);
-        unselectedData.splice(index, 1);
+        data[index]["selected"] = true;
       }
       // Remove the "justChanged"-status from the object
       $(this).removeAttr("status");
     }
-
   });
 
-  console.log(selectedData)
-  console.log(unselectedData)
 
+  return data;
 
-  return [selectedData, unselectedData];
 }
 
 // Returns the index of the data sample with that subcategory
