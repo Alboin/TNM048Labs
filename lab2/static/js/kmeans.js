@@ -13,9 +13,26 @@ function kmeans(data, k) {
   for(var i = 0; i < k; i++)
     centroids.push(data[Math.floor(Math.random() * data.length)]);
 
-  assignments = assignToCentroid(data, centroids);
-  centroids = moveCentroids(data, assignments, centroids);
 
+  var improvement = 999999;
+
+  // Loop until the error is small enough.
+  while(improvement > 0.1)
+  {
+    // Assign all data samples to closest centroid.
+    assignments = assignToCentroid(data, centroids);
+    // Calculate an error for these centroids.
+    error1 = calculateError(data, assignments, centroids);
+    // Move the centroids to the mean position of each cluster.
+    centroids = moveCentroids(data, assignments, centroids);
+    // Calculate a new error for the moved centroids.
+    error2 = calculateError(data, assignments, centroids);
+    // Calculate the "improvement" in error.
+    improvement = error1 - error2;
+    console.log(error1);
+    console.log(error2);
+    console.log(improvement);
+  }
 
   return {"assignments": assignments}
 }
@@ -26,39 +43,39 @@ function assignToCentroid(data, centroids)
 {
   var assignments = [];
 
-  for (sample in data)
+  for (var sample in data)
   {
     var minDist = [999999, -1];
-    for (centroid in centroids)
+    for (var centroid in centroids)
     {
+      // Measure the distance between a sample and each centroid.
       var distance = euclidianDistance(data[sample], centroids[centroid]);
+      // If the distance is smaller, save the distance and the index to that centroid.
       if (distance < minDist[0])
         minDist = [distance, centroid];
     }
     assignments.push(Number(minDist[1]));
   }
+  // The last value in the array is for some reason junk, so we remove that.
   assignments.splice(assignments.length - 1, 1);
 
   return assignments;
 }
 
+// Moves the centroid to the mean positions of each assigned cluster.
 function moveCentroids(data, assignments, centroids)
 {
   // Create a new centroid variable with all 0's
-  console.log(centroids);
-  var newCentroids = jQuery.extend(true, {}, centroids);
-  var tCentroids = [];
-  for (var centroid in newCentroids)
+  var temp = jQuery.extend(true, {}, centroids);
+  var newCentroids = [];
+  for (var centroid in temp)
   {
-    for (var dim in newCentroids[centroid])
-    {
-      newCentroids[centroid]["" + dim + ""] = 0.;
+    for (var dim in temp[centroid])
+      temp[centroid][dim] = 0;
 
-    }
-    tCentroids.push(newCentroids[centroid]);
-
+    newCentroids.push(temp[centroid]);
   }
-      //newCentroids
+
   // Variable for counting the number of samples assigned to each centroid.
   var numberOfSamplesPerCentroid = jQuery.extend(true, {}, newCentroids);
 
@@ -85,29 +102,45 @@ function moveCentroids(data, assignments, centroids)
   log(newCentroids, 1);
   // Add up the positions of all the assigned samples for each centroid.
   for (var sample in data)
-  {
     if(!isNaN(sample))
       for (var dim in newCentroids[0])
       {
         newCentroids[assignments[sample]][dim] += Number(data[sample][dim]);
-        numberOfSamplesPerCentroid[assignments[sample]][0]++;
+        // Put the number of samples/centroid in the first dimension of the objects in the array.
+        numberOfSamplesPerCentroid[assignments[sample]][Object.keys(data[0])[0]]++;
       }
+<<<<<<< HEAD
   }
   log(numberOfSamplesPerCentroid, 1.5);
   log(newCentroids, 2);
+=======
+>>>>>>> 2ecaa11df12cad2ce779ec67afedbea5826df0eb
 
-//console.log(numberOfSamplesPerCentroid)
-  //for (centroid in newCentroids)
-  //  for()
-  //console.log(newCentroids)
+  // Divide the summed values by number of assigned centroids to get the mean position.
+  for (var centroid in newCentroids)
+    for(var dim in newCentroids[centroid])
+      newCentroids[centroid][dim] /= numberOfSamplesPerCentroid[centroid][Object.keys(data[0])[0]];
+
   return newCentroids;
 }
+
+// Calculate the squared error over all the samples for their assigned centroid.
+function calculateError(data, assignments, theCentroids)
+{
+  var error = 0;
+  // Since we know which centroid each sample is assigned to we only need one loop.
+  for (var sample in data)
+      error += Math.pow(euclidianDistance(theCentroids[assignments[sample]], data[sample]), 2);
+
+  return error;
+}
+
 
 // Calculate the euclidian distance between two data samples.
 function euclidianDistance(sample1, sample2)
 {
   var dist = 0;
-  for (dim in sample1)
+  for (var dim in sample1)
     dist += Math.pow(sample1[dim] - sample2[dim], 2);
   dist = Math.sqrt(dist);
   return dist;

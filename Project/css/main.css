@@ -1,0 +1,263 @@
+img:hover {
+  cursor: pointer;
+
+}
+
+.background path {
+  fill: none;
+  stroke: none;
+  stroke-width: 20px;
+  pointer-events: stroke;
+}
+
+.foreground path {
+  fill: none;
+  stroke: steelblue;
+  stroke-width: 1.5px;
+}
+
+.axis .title {
+  font-size: 11px;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+.axis line,
+.axis path {
+  fill: none;
+  stroke: #000;
+}
+
+.axis.string {
+  font-size: 6px;
+}
+
+.label {
+  -webkit-transition: fill 125ms linear;
+}
+
+.active .label:not(.inactive) {
+  font-weight: bold;
+  font-size: 11px;
+}
+
+.label.inactive {
+  fill: #ccc;
+}
+
+.foreground path.inactive {
+  stroke: #fff;
+  stroke-opacity: .5;
+  stroke-width: 1px;
+}
+
+.controls {
+  background-color: #dde;
+  padding: 15px;
+  border-radius: 10px;
+  border-style: solid;
+  border-color: #ccf;
+  border-width: 1px;
+}
+
+h4 {
+  text-align: center;
+  color: #559;
+}
+
+
+div.tooltip {
+  position: absolute;
+  text-align: center;
+  width: auto;
+  height: auto;
+  padding: 2px;
+  font: 12px sans-serif;
+  background: lightgray;
+  border: 0px;
+  border-radius: 3px;
+  pointer-events: none;
+}
+
+.brushed {
+    stroke: #8e1b54;
+    opacity: 1.0;
+}
+
+.non_brushed {
+    opacity: 0.5;
+}
+
+svg {
+font: 10px sans-serif;
+}
+
+
+.brush .extent {
+fill-opacity: .3;
+stroke: #fff;
+}
+
+.axis line,
+.axis path {
+fill: none;
+stroke: #000;
+}
+
+.axis text {
+text-shadow: 0 1px 0 #fff, 1px 0 0 #fff, 0 -1px 0 #fff, -1px 0 0 #fff;
+cursor: move;
+}
+
+.monthText:hover{
+
+}
+
+path:hover {
+  stroke: #000;
+  stroke-width: 1.5px;
+  -webkit-transition-duration: 0.8s; /* Safari */
+  transition-duration: 0.8s;
+
+}
+
+
+#monthInfo {
+  background-color: #fff;
+  padding: 15px;
+  border-radius: 10px;
+  border-style: solid;
+  border-color: #ccf;
+  border-width: 1px;
+}
+
+.infoHeader {
+  color: #448;
+}
+
+#pie-month-info
+{
+  background-color: #dde;
+  border-radius: 10px;
+  border-style: solid;
+  border-color: #ccf;
+  border-width: 1px;
+  margin-left: 30px;
+  padding-top: 40px;
+  padding-bottom: 20px;
+  padding-left: 20px;
+  height: 100%;
+
+}
+
+h1 {
+  margin: 20px;
+  font-weight: bold;
+}
+
+/* Disable scrolling
+body{
+  overflow: hidden;
+}*/
+
+#datainfo {
+  padding-top: 20px;
+  padding-right: 20px;
+  color: #777;
+}
+
+
+
+#lists {
+  background-color: #dde;
+  padding-left: 15px;
+  padding-right: 15px;
+  padding-top: 15px;
+  border-radius: 10px;
+  border-style: solid;
+  border-color: #ccf;
+  border-width: 1px;
+  height: 100%;
+
+}
+
+.catColor {
+  opacity: 0;
+}
+
+.listItem {
+  border-style: dotted;
+  border-width: 1px;
+  border-color: #559;
+}
+
+.scroll-menu {
+    width: 100%; /* Set a width if you like */
+    overflow:hidden;
+    overflow-y:scroll;
+    overflow-x: hidden;
+    height: 200px;
+    margin-top: 5px;
+    margin-bottom: 20px;
+    object-position: center;
+    border: 1px solid #AAAAAA;
+    border-radius: 4px;
+    box-shadow: inset 1px 1px 6px 2px rgba(0,0,0, .25);
+}
+
+.scroll-menu a {
+    background-color: #eee; /* Grey background color */
+    color: #333; /* Black text color */
+    display: block; /* Make the links appear below each other */
+    padding: 5px; /* Add some padding */
+    text-decoration: none; /* Remove underline from links */
+    overflow: hidden;
+
+}
+
+
+h3 {
+  text-align: left;
+  color: #000;
+  font-size:18px;
+}
+
+.buttonActive {
+  position:absolute;
+  right: 30px;
+  top: 80px;
+
+  background-color: #ccc;
+  font-size: 14px;
+  text-align: center;
+  border: 1px solid #A9A9A9;
+  font-weight: bold;
+  border-radius: 8px;
+  -webkit-transition-duration: 0.4s; /* Safari */
+  transition-duration: 0.4s;
+
+  opacity: 1.0;
+  cursor: initial;
+
+}
+.buttonActive:hover{
+  background-color: #aaa;
+  border: 1px solid #696969;
+  cursor: pointer;
+}
+
+.buttonDisabled {
+    position:absolute;
+    right: 30px;
+    top: 80px;
+
+    background-color: #ccc;
+    font-size: 14px;
+    text-align: center;
+    border: 1px solid #A9A9A9;
+    font-weight: bold;
+    border-radius: 8px;
+
+    opacity: 0.6;
+    cursor: not-allowed;
+}
