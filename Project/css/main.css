@@ -165,6 +165,22 @@ body {
   overflow-y: hidden;
 }
 
+.nprojects {
+  color: gray;
+  font-style: italic;
+
+}
+
+.percent {
+  color: green;
+  left: 10px;
+}
+
+.listItemName {
+
+  font-weight: normal;
+}
+
 #datainfo {
   padding-top: 20px;
   padding-right: 20px;
