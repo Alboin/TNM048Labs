@@ -84,7 +84,6 @@ function draw(error, data_c, data_m){
     // Create the scatterplot.
     sp = new scatterplot(dataFiltered, selectedX, selectedY, zoom);
     addScroll();
-    zoom = 0;
   }
 
   // Function for updating selected subcategories depending on which
@@ -132,15 +131,12 @@ function draw(error, data_c, data_m){
 
   function addScroll()
   {
-    /*$(document).ready(function(){
+    $(document).ready(function(){
         $('#scatterplot-svg').bind('DOMMouseScroll mousewheel', function(e){
-          zoom = Math.sign(e.originalEvent.detail);
-          console.log(zoom)
-
+          zoom += Math.sign(e.originalEvent.detail);
           updateScatterplot();
-          console.log(zoom)
         });
-    });*/
+    });
   }
 
 
