@@ -109,13 +109,16 @@ text-shadow: 0 1px 0 #fff, 1px 0 0 #fff, 0 -1px 0 #fff, -1px 0 0 #fff;
 cursor: move;
 }
 
+.monthText:hover{
+
+}
 
 path:hover {
   stroke: #000;
   stroke-width: 1.5px;
-  opacity: 0.5;
   -webkit-transition-duration: 0.8s; /* Safari */
   transition-duration: 0.8s;
+
 }
 
 
@@ -145,8 +148,6 @@ path:hover {
   padding-left: 20px;
   height: 100%;
 
-  -webkit-transition-duration: 0.4s; /* Safari */
-  transition-duration: 0.4s;
 }
 
 h1 {

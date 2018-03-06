@@ -62,6 +62,7 @@ function piechart(data)
                 d.outerRadius = maxRadius;
                 return "translate(" + arc.centroid(d) + ")";        //this gives us a pair of coordinates like [50, 50]
             })
+            .attr("stroke-width", "1.5px" )
             .attr("text-anchor", "middle")                          //center the text on it's origin
             .text(function(d, i) {
                                 var percent = Math.round(100 * d.data.success / (d.data.success + d.data.failed)); // NEW
@@ -93,11 +94,8 @@ function piechart(data)
 		        });
 
         arcs.on("mouseout", function(d, i) {
-                 circleBorder.attr("r", minRadius);
+                 //circleBorder.attr("r", minRadius);
                  arcs.attr("stroke-width", 0);
-
-
-
         });
 
 
