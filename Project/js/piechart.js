@@ -95,7 +95,7 @@ function piechart(data)
 
         arcs.on("mouseout", function(d, i) {
                  //circleBorder.attr("r", minRadius);
-                 arcs.attr("stroke-width", 0);
+                 //arcs.attr("stroke-width", 0);
         });
 
 

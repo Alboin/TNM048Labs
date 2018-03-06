@@ -6,9 +6,9 @@ function scatterplot(data, selectedX, selectedY, zoomLevel)
   else
   {
     if(zoomLevel > -10)
-      zoomLevel = zoomLevel * 300;
+      zoomLevel = zoomLevel * 100;
     else
-      zoomLevel = Math.pow(Math.abs(zoomLevel), 1.1) * -300;
+      zoomLevel = Math.pow(Math.abs(zoomLevel), 1.1) * -100;
 
   }
 
@@ -89,17 +89,17 @@ function scatterplot(data, selectedX, selectedY, zoomLevel)
     // Make sure the axes have the right label depending on plotted data.
     var xAxisLabel, yAxisLabel;
     if(selectedX == "backers")
-      xAxisLabel = "Backers/project";
+      xAxisLabel = "Backers / project";
     else if(selectedX == "goal")
-      xAxisLabel = "Goal ($)";
+      xAxisLabel = "Goal($) / project";
     else
-      xAxisLabel = "Pledged ($)";
+      xAxisLabel = "Pledged($) / project";
     if(selectedY == "backers")
-      yAxisLabel = "Backers/project";
+      yAxisLabel = "Backers / project";
     else if(selectedY == "goal")
-      yAxisLabel = "Goal ($)";
+      yAxisLabel = "Goal($) / project";
     else
-      yAxisLabel = "Pledged ($)";
+      yAxisLabel = "Pledged($) / project";
 
       //svg.append("g").call(d3.behavior.zoom().x(x).y(y).scaleExtent([1, 8]).on("zoom", function() { zoom(); console.log("Jek")}))
 
