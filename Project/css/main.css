@@ -54,10 +54,10 @@ img:hover {
 .controls {
   background-color: #dde;
   padding: 15px;
-  border-radius: 10px;
   border-style: solid;
   border-color: #ccf;
   border-width: 1px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
 h4 {
@@ -116,8 +116,8 @@ cursor: move;
 path:hover {
   stroke: #000;
   stroke-width: 1.5px;
-  -webkit-transition-duration: 0.8s; /* Safari */
-  transition-duration: 0.8s;
+  -webkit-transition-duration: 0.0s; /* Safari */
+  transition-duration: 0.0s;
 
 }
 
@@ -125,10 +125,10 @@ path:hover {
 #monthInfo {
   background-color: #fff;
   padding: 15px;
-  border-radius: 10px;
   border-style: solid;
   border-color: #ccf;
   border-width: 1px;
+  margin-top: 20px;
 }
 
 .infoHeader {
@@ -138,7 +138,6 @@ path:hover {
 #pie-month-info
 {
   background-color: #dde;
-  border-radius: 10px;
   border-style: solid;
   border-color: #ccf;
   border-width: 1px;
@@ -147,7 +146,12 @@ path:hover {
   padding-bottom: 20px;
   padding-left: 20px;
   height: 100%;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
 
+#scatterplot-svg {
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  padding: 10px;
 }
 
 h1 {
@@ -155,10 +159,9 @@ h1 {
   font-weight: bold;
 }
 
-/* Disable scrolling
-body{
-  overflow: hidden;
-}*/
+body {
+  overflow-x: hidden;
+}
 
 #datainfo {
   padding-top: 20px;
@@ -173,12 +176,11 @@ body{
   padding-left: 15px;
   padding-right: 15px;
   padding-top: 15px;
-  border-radius: 10px;
   border-style: solid;
   border-color: #ccf;
   border-width: 1px;
   height: 100%;
-
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
 .catColor {
@@ -201,7 +203,6 @@ body{
     margin-bottom: 20px;
     object-position: center;
     border: 1px solid #AAAAAA;
-    border-radius: 4px;
     box-shadow: inset 1px 1px 6px 2px rgba(0,0,0, .25);
 }
 
@@ -232,7 +233,7 @@ h3 {
   text-align: center;
   border: 1px solid #A9A9A9;
   font-weight: bold;
-  border-radius: 8px;
+  border-radius: 4px;
   -webkit-transition-duration: 0.4s; /* Safari */
   transition-duration: 0.4s;
 
@@ -256,7 +257,7 @@ h3 {
     text-align: center;
     border: 1px solid #A9A9A9;
     font-weight: bold;
-    border-radius: 8px;
+    border-radius: 4px;
 
     opacity: 0.6;
     cursor: not-allowed;

@@ -42,6 +42,7 @@ function draw(error, data_c, data_m){
   // Set up the elements in the scroll-list to update the scatterplot on click.
   $(".scroll-menu").children().on("click", function(d)
   {
+  	 d.preventDefault(); //to prevent the scroll to jump up to top
     // Switch class between selected/unselected.
     if($(this).hasClass("selected"))
       $(this).removeClass("selected").addClass("unselected");
@@ -84,7 +85,6 @@ function draw(error, data_c, data_m){
     // Create the scatterplot.
     sp = new scatterplot(dataFiltered, selectedX, selectedY, zoom);
     addScroll();
-    zoom = 0;
   }
 
   // Function for updating selected subcategories depending on which
@@ -132,15 +132,12 @@ function draw(error, data_c, data_m){
 
   function addScroll()
   {
-    /*$(document).ready(function(){
+    $(document).ready(function(){
         $('#scatterplot-svg').bind('DOMMouseScroll mousewheel', function(e){
-          zoom = Math.sign(e.originalEvent.detail);
-          console.log(zoom)
-
+          zoom += Math.sign(e.originalEvent.detail);
           updateScatterplot();
-          console.log(zoom)
         });
-    });*/
+    });
   }
 
 

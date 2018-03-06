@@ -1,17 +1,33 @@
-function scatterplot(data, selectedX, selectedY, zoom)
+function scatterplot(data, selectedX, selectedY, zoomLevel)
 {
+  console.log(zoomLevel)
+  if(zoomLevel > 0)
+    zoomLevel = 0;
+  else
+  {
+    if(zoomLevel > -10)
+      zoomLevel = zoomLevel * 300;
+    else
+      zoomLevel = Math.pow(Math.abs(zoomLevel), 1.1) * -300;
+
+  }
+
 
   var div = '#scatter-plot';
 
   //The base-code for the scatterplot is from
   //http://bl.ocks.org/weiglemc/6185069
 
+  // Remove any old tooltips
+  $(".tooltip").remove();
+
 
   var margin = {top: 50, right: 50, bottom: 60, left: 80};
   var width = $(".col-sm-5").width() - margin.right - margin.left;
-  var height = 0.9 * $(document).height() - margin.top - margin.bottom - $(".controls").height() - $("#title").height();
+  var height = 0.85 * $(document).height() - margin.top - margin.bottom - $(".controls").height() - $("#title").height();
   // Modify number of ticks on x-axis depending on screen width.
-  var number_ticks = Math.round($(document).width() / 1200 * 4);
+  var number_ticks_x = Math.round($(document).width() / 1200 * 4) - zoomLevel / 150;
+  var number_ticks_y = Math.round($(document).height() / 800 * 10) - zoomLevel / 150;
 
   // setup fill color
   var cValue = function(d) { return d.maincategory;},
@@ -33,7 +49,7 @@ function scatterplot(data, selectedX, selectedY, zoom)
       else
         return d.pledged;
       }; // data -> value
-      var xScale = d3.scale.linear().range([0, width]), // value -> display
+      var xScale = d3.scale.linear().range([0, width - zoomLevel]), // value -> display
       xMap = function(d) { return xScale(xValue(d));}, // data -> display
       xAxis = d3.svg.axis().scale(xScale).orient("bottom");
 
@@ -46,7 +62,7 @@ function scatterplot(data, selectedX, selectedY, zoom)
       else
         return d.pledged;
   }; // data -> value
-      var yScale = d3.scale.linear().range([height, 0]), // value -> display
+      var yScale = d3.scale.linear().range([height, zoomLevel]), // value -> display
       yMap = function(d) { return yScale(yValue(d));}, // data -> display
       yAxis = d3.svg.axis().scale(yScale).orient("left");
 
@@ -91,7 +107,7 @@ function scatterplot(data, selectedX, selectedY, zoom)
  svg.append("g")
      .attr("class", "x axis")
      .attr("transform", "translate(0," + height + ")")
-     .call(xAxis.ticks(number_ticks))
+     .call(xAxis.ticks(number_ticks_x))
    .append("text")
      .attr("class", "label")
      .attr("x", width)
@@ -104,7 +120,7 @@ function scatterplot(data, selectedX, selectedY, zoom)
  // y-axis
  svg.append("g")
      .attr("class", "y axis")
-     .call(yAxis)
+     .call(yAxis.ticks(number_ticks_y))
    .append("text")
      .attr("class", "label")
      .attr("transform", "rotate(-90)")
