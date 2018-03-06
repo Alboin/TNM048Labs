@@ -26,7 +26,6 @@ img:hover {
 .axis path {
   fill: none;
   stroke: #000;
-  shape-rendering: crispEdges;
 }
 
 .axis.string {
@@ -97,14 +96,12 @@ font: 10px sans-serif;
 .brush .extent {
 fill-opacity: .3;
 stroke: #fff;
-shape-rendering: crispEdges;
 }
 
 .axis line,
 .axis path {
 fill: none;
 stroke: #000;
-shape-rendering: crispEdges;
 }
 
 .axis text {
@@ -112,12 +109,16 @@ text-shadow: 0 1px 0 #fff, 1px 0 0 #fff, 0 -1px 0 #fff, -1px 0 0 #fff;
 cursor: move;
 }
 
+.monthText:hover{
+
+}
 
 path:hover {
   stroke: #000;
   stroke-width: 1.5px;
-  transition: fill 250ms linear;
-  transition-delay: 250ms;
+  -webkit-transition-duration: 0.0s; /* Safari */
+  transition-duration: 0.0s;
+
 }
 
 

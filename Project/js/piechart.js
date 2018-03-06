@@ -62,18 +62,19 @@ function piechart(data)
                 d.outerRadius = maxRadius;
                 return "translate(" + arc.centroid(d) + ")";        //this gives us a pair of coordinates like [50, 50]
             })
+            .attr("stroke-width", "1.5px" )
             .attr("text-anchor", "middle")                          //center the text on it's origin
             .text(function(d, i) {
                                 var percent = Math.round(100 * d.data.success / (d.data.success + d.data.failed)); // NEW
                                 return data[i].month  ; });        //get the label from our original data array
 
 
-
+        var strokeColor = "#000";
         arcs.on("mouseover", function(d, i) {
 
                 // Makes the last selected still being selected when the mouse leaves.
                 arcs.attr("stroke-width", 0);
-                $(this).attr("stroke", "#000").attr("stroke-width", "1.5px");
+                $(this).attr("stroke", strokeColor).attr("stroke-width", "1.5px");
                 $(".monthText").attr("stroke-width", 0);
 
                 var percent = Math.round(10000 * d.data.success / (d.data.success + d.data.failed)) / 100;
@@ -92,12 +93,18 @@ function piechart(data)
 
 		        });
 
+        arcs.on("mouseout", function(d, i) {
+                 //circleBorder.attr("r", minRadius);
+                 arcs.attr("stroke-width", 0);
+        });
+
+
         // Create circle for comparison between slices.
         var circleBorder = vis.append("circle")
               .attr("cx", 0)
               .attr("cy", 0)
               .attr("r", minRadius)
-              .style("stroke", "black")
+              .style("stroke", strokeColor)
               .style("fill", "none");
 
 

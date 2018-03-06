@@ -42,6 +42,7 @@ function draw(error, data_c, data_m){
   // Set up the elements in the scroll-list to update the scatterplot on click.
   $(".scroll-menu").children().on("click", function(d)
   {
+  	 d.preventDefault(); //to prevent the scroll to jump up to top
     // Switch class between selected/unselected.
     if($(this).hasClass("selected"))
       $(this).removeClass("selected").addClass("unselected");
