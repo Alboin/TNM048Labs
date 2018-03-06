@@ -53,7 +53,7 @@ img:hover {
 
 .controls {
   background-color: #dde;
-  padding: 15px;
+  padding: 5px;
   border-style: solid;
   border-color: #ccf;
   border-width: 1px;
@@ -63,6 +63,13 @@ img:hover {
 h4 {
   text-align: center;
   color: #559;
+}
+
+h2 {
+  text-align: center;
+  color: #559;
+  font-size: 18px;
+  font-style: bold;
 }
 
 
@@ -209,6 +216,8 @@ body {
   border-style: dotted;
   border-width: 1px;
   border-color: #559;
+  font-size: 14px;
+  /*height: 30px;*/
 }
 
 .scroll-menu {

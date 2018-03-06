@@ -31,7 +31,7 @@ function scrollSubCategory(data)
           + generateBackgroundColor(false, sortedData[sample].successrate)
           + '" class="listItem unselected" id="' + sortedData[sample].category + '">'
           + "<div class='row'><div class='col-sm-1 catColor'></div><div class='col-sm-10'><label class='listItemName'>"
-          + sortedData[sample].category + "</label> <label class='nprojects'>(" + sortedData[sample].nprojects + ")</label> &nbsp;&nbsp;<label class='percent'>" + sortedData[sample].successrate
+          + sortedData[sample].category + "</label> <label class='nprojects'>(" + sortedData[sample].nprojects + ")</label> <label class='percent'>" + sortedData[sample].successrate
           + "%</label></div></div></a>";
    		//create
    		scrollList.append(htmlstring);
@@ -170,3 +170,36 @@ function generateBackgroundColor(hover, percentage, click)
 
  return styleString;
 }
+
+
+
+
+  function clearScroll(scrollName)
+  {
+  	if($(".selected").length != 0)
+  		$(scrollName).children().removeClass("selected").addClass("unselected").trigger("mouseout");
+  }
+
+  function activateButton(buttonName)
+  {
+  	$(buttonName).attr("class", "buttonActive");
+  }
+
+   function disableButton(buttonName)
+  {
+	$(buttonName).attr("class", "buttonDisabled");
+  }
+
+  function addScroll()
+  {
+    $(document).ready(function(){
+        $('#scatterplot-svg').bind('DOMMouseScroll mousewheel', function(e){
+          zoom += Math.sign(e.originalEvent.detail);
+          if(zoom > 0)
+            zoom = 0;
+          updateScatterplot();
+        });
+    });
+  }
+
+  

@@ -22,7 +22,7 @@ function scatterplot(data, selectedX, selectedY, zoomLevel)
   $(".tooltip").remove();
 
 
-  var margin = {top: 50, right: 50, bottom: 60, left: 80};
+  var margin = {top: 20, right: 50, bottom: 60, left: 80};
   var width = $(".col-sm-5").width() - margin.right - margin.left;
   var height = 0.85 * $(document).height() - margin.top - margin.bottom - $(".controls").height() - $("#title").height();
   // Modify number of ticks on x-axis depending on screen width.
@@ -31,7 +31,7 @@ function scatterplot(data, selectedX, selectedY, zoomLevel)
 
   // setup fill color
   var cValue = function(d) { return d.maincategory;},
-    color = d3.scale.category10();
+    color = d3.scale.category20();
 
     // add the tooltip area to the webpage
   var tooltip = d3.select("body").append("div")
@@ -46,8 +46,9 @@ function scatterplot(data, selectedX, selectedY, zoomLevel)
         return d.backers / (d.success + d.failed);
       else if(selectedX == "goal")
         return d.goal;
-      else
+      else if(selectedX == "pledged")
         return d.pledged;
+      else return d.nprojects;
       }; // data -> value
       var xScale = d3.scale.linear().range([0, width - zoomLevel]), // value -> display
       xMap = function(d) { return xScale(xValue(d));}, // data -> display
@@ -59,8 +60,9 @@ function scatterplot(data, selectedX, selectedY, zoomLevel)
         return d.backers / (d.success + d.failed);
       else if(selectedY == "goal")
         return d.goal;
-      else
+      else if(selectedY == "pledged")
         return d.pledged;
+      else return d.nprojects;
   }; // data -> value
       var yScale = d3.scale.linear().range([height, zoomLevel]), // value -> display
       yMap = function(d) { return yScale(yValue(d));}, // data -> display
@@ -92,14 +94,20 @@ function scatterplot(data, selectedX, selectedY, zoomLevel)
       xAxisLabel = "Backers / project";
     else if(selectedX == "goal")
       xAxisLabel = "Goal($) / project";
-    else
+    else if(selectedX == "pledged")
       xAxisLabel = "Pledged($) / project";
+    else 
+      xAxisLabel = "Number of projects";
+
     if(selectedY == "backers")
       yAxisLabel = "Backers / project";
     else if(selectedY == "goal")
       yAxisLabel = "Goal($) / project";
-    else
+    else if(selectedY == "pledged")
       yAxisLabel = "Pledged($) / project";
+    else
+      yAxisLabel = "Number of projects";
+
 
       //svg.append("g").call(d3.behavior.zoom().x(x).y(y).scaleExtent([1, 8]).on("zoom", function() { zoom(); console.log("Jek")}))
 
@@ -162,14 +170,17 @@ function scatterplot(data, selectedX, selectedY, zoomLevel)
           xText = formatNumber(Math.round(xValue(d))) + " backers/project";
         else if(selectedX == "goal")
           xText = "Goal: $" + formatNumber(Math.round(xValue(d)));
-        else
+        else if(selectedX == "pledged")
           xText = "Pledged: $" + formatNumber(Math.round(xValue(d)));
+        else xText = "Number of projects: " + formatNumber(Math.round(yValue(d)));
+
         if(selectedY == "backers")
           yText = formatNumber(Math.round(yValue(d))) + " backers/project";
         else if(selectedY == "goal")
           yText = "Goal: $" + formatNumber(Math.round(yValue(d)));
-        else
+        else if(selectedY == "pledged")
           yText = "Pledged: $" + formatNumber(Math.round(yValue(d)));
+        else yText = "Number of projects: " + formatNumber(Math.round(yValue(d)));
 
 
          tooltip.html("<b>" + d.category + "</b><br/>" + xText + "<br>" + yText)
