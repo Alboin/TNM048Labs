@@ -135,6 +135,8 @@ function draw(error, data_c, data_m){
     $(document).ready(function(){
         $('#scatterplot-svg').bind('DOMMouseScroll mousewheel', function(e){
           zoom += Math.sign(e.originalEvent.detail);
+          if(zoom > 0)
+            zoom = 0;
           updateScatterplot();
         });
     });
@@ -143,9 +145,15 @@ function draw(error, data_c, data_m){
 
 
 
+
+
   // Correct page sizes
-  $(document).ready($("#pie-month-info").css("height", $("#scatter-plot").height() + $("#title").height()));// + $(".controls").height());
-  $("#pie-month-info").css("min-height", $("#monthInfo").position().top + $("#monthInfo").height() + $("#title").height() * 2);
+
+  //$(document).ready($("#pie-month-info").css("height", $("#scatter-plot").height() + $("#title").height()));// + $(".controls").height());
+  //$("#pie-month-info").css("min-height", $("#monthInfo").position().top + $("#monthInfo").height() + $("#title").height() * 2);
+
+  $(document).ready($("#pie-month-info").css("height", $("#scatter-plot").height() + 2 * $("#title").height()));// + $(".controls").height());
+  $(document).ready($("#pie-month-info").css("min-height", $("#monthInfo").position().top + $("#monthInfo").height() + 2 * $("#title").height()));
   var titleHeight = $("#title").height();
   $("#title").html("<a href='https://www.kickstarter.com/'><img id='logo' src='Kickstarter_logo.svg.png'></a>&nbsp; project statistics");
   $("#logo").height(titleHeight);
