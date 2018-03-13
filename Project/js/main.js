@@ -144,8 +144,8 @@ function draw(error, data_c, data_m){
 
 
   // Correct page sizes
-  $("#pie-month-info").css("height", $("#scatter-plot").height() + $("#title").height());// + $(".controls").height());
-  $("#pie-month-info").css("min-height", $("#monthInfo").position().top + $("#monthInfo").height() + $("#title").height() );
+  $(document).ready($("#pie-month-info").css("height", $("#scatter-plot").height() + $("#title").height()));// + $(".controls").height());
+  $("#pie-month-info").css("min-height", $("#monthInfo").position().top + $("#monthInfo").height() + $("#title").height() * 2);
   var titleHeight = $("#title").height();
   $("#title").html("<a href='https://www.kickstarter.com/'><img id='logo' src='Kickstarter_logo.svg.png'></a>&nbsp; project statistics");
   $("#logo").height(titleHeight);

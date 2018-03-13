@@ -6,9 +6,9 @@ function scatterplot(data, selectedX, selectedY, zoomLevel)
   else
   {
     if(zoomLevel > -10)
-      zoomLevel = zoomLevel * 300;
+      zoomLevel = zoomLevel * 200;
     else
-      zoomLevel = Math.pow(Math.abs(zoomLevel), 1.1) * -300;
+      zoomLevel = Math.pow(Math.abs(zoomLevel), 1.1) * -200;
 
   }
 

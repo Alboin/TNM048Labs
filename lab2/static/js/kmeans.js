@@ -109,12 +109,9 @@ function moveCentroids(data, assignments, centroids)
         // Put the number of samples/centroid in the first dimension of the objects in the array.
         numberOfSamplesPerCentroid[assignments[sample]][Object.keys(data[0])[0]]++;
       }
-<<<<<<< HEAD
   }
   log(numberOfSamplesPerCentroid, 1.5);
   log(newCentroids, 2);
-=======
->>>>>>> 2ecaa11df12cad2ce779ec67afedbea5826df0eb
 
   // Divide the summed values by number of assigned centroids to get the mean position.
   for (var centroid in newCentroids)
