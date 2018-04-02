@@ -189,18 +189,16 @@ function map(data, world_map_json) {
 
 
       //Call the kmeansRes on the filterdData with k clusters.
-      console.log(filterdData)
       var kmeansRes = kmeans(filterdData,k);
-      console.log("hje")
 
       d3.selectAll(".point").data(data)
           //Change style fill if id == in filterdData id
-              .style("fill", function (d) {
+              .style("fill", function (d, id) {
                   for (var j = 0; j < filterdData.length; j++)
                   {
-                      if (id == filterdData[i].id) {
+                      if (id == filterdData[j].id) {
                           //return colors for each assignment j
-                          return colors[kmeansRes.assignments[j]];
+                          return colors[kmeansRes[j]["assignments"]];
                       }
                   }
 

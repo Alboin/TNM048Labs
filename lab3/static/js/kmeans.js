@@ -6,163 +6,197 @@
 * @return {Object}
 */
 
-function kmeans(data, k, assignments, centroids) {
+function kmeans(originalData, k) {
 
     //Implement the algorithm here..
     //Remember to reference any code that you have not implemented yourself!
-    for (dataPoint in data)
-    {
-      data[dataPoint] = {"depth": data[dataPoint].depth, "mag": data[dataPoint].mag};
-    }
-
-    // Count number of dimensions in data
-    var dimensions = 0;
-    for (x in data[0]) {
-        dimensions++;
-    }
-
-    if (centroids == null)
-    {
-        // Create centroids
-        var centroids = [];
-        for (var i = 0; i < k; i++)
-        {
-            var centroid = [];
-            for (var dim = 0; dim < dimensions; dim++)
-            {
-                centroid[dim] = Math.random();
-            }
-            centroids[i] = centroid;
-        }
-    }
+	var MAX_ITERATIONS = 1000;
+	var MIN_QUALITY_DECREASE = 0.01;
 
 
-    var assignments;
+	var iteration = 0;
+	var updatedData = [];
+	var qualityVal = Number.MAX_VALUE;
 
-    // Loop until the quality of the centroids stops improving.
-    while(true)
-    {
-        // Assign all datapoints to a centroid
-        assignments = assignDataToCentroids(data, centroids);
+	var data = [];
+	data = transformData(originalData);
+	var DIMENSION = Object.keys(data[0]);
 
-        // Move the centroids to the center of each cluster
-        var newCentroids = calculateNewCentroids(data, assignments, k, dimensions);
+	//1. Randomly place K points into the space
+	var centroids = initCentroids(k, originalData);
 
-        var newAssignments = assignDataToCentroids(data, newCentroids);
+	//do while quality is decreasing with at least MIN_QUALITY_DECREASE
+	do{
+		//save old qualityVal to check quality decrease
+		oldQuality = qualityVal;
 
-        // Compare the quality of the new centroids to the old ones.
-        var errorOld = calculateError(data, centroids, assignments);
-        var errorNew = calculateError(data, newCentroids, newAssignments);
+		//2. Assign each item to the cluster that has the closest centroid
+		updatedData = assignClusters(DIMENSION, centroids, data);
 
-        console.log("Error old: " + errorOld)
-        console.log("Error new: " + errorNew)
+		// 3. Recalculate the K centroids to be in the centre of the cluster
+		centroids = reCalcCentroid(centroids, updatedData, DIMENSION);
 
-        console.log(centroids)
-        console.log(newCentroids)
+		//4. Do recalc until quality is good enough.
+		qualityVal = checkQuality(DIMENSION, centroids, updatedData);
+    console.log("Iteration: " + iteration + " quality: " + (oldQuality - qualityVal));
 
-        // If quality is improved, use the new centroids. If not we are done!
-        if (errorNew < errorOld)
-            centroids = newCentroids;
-        else
-            break;
-    }
+    iteration++;
 
-    var result = { "assignments": assignments, "centroids": centroids };
-    return result;
+	}while(oldQuality - qualityVal > MIN_QUALITY_DECREASE
+			&& iteration < MAX_ITERATIONS);
 
+	return updatedData;
 };
 
-function assignDataToCentroids(data, centroids)
-{
-    //loop through data and assign it to the closest centroid
-    var assignments = [];
-    // Select one data sample
-    for (sample in data) {
-
-        var smallestDist = [1000, -1];
-        // Compare sample to centroids
-        for (centroid in centroids) {
-            var dist = 0;
-            var dimIdx = 0;
-            // Loop through the data in the sample
-            for (datapoint in data[sample]) {
-                dist += Math.pow(data[sample][datapoint] - centroids[centroid][dimIdx], 2);
-                dimIdx++;
-            }
-            // Calculate the euclidian distance to a centroid
-            dist = Math.sqrt(dist);
-
-            // Save the smallest distance and centroid index
-            if (dist < smallestDist[0])
-                smallestDist = [dist, centroid];
-        }
-        assignments.push(smallestDist[1]);
-    }
-    // Remove last element from array
-    //assignments.splice(assignments.length - 1, 1);
-
-    return assignments;
+function initCentroids(k, data){
+	var centroids = [];
+	for( i = 0; i < k ; i++){
+		//randomly generate number in space
+		centroids.push(data[Math.floor(Math.random()*data.length)]);
+	};
+	return centroids;
 }
 
-function calculateNewCentroids(data, assignments, k, dimensions)
+ //Check the quality of the cluster.
+function checkQuality(dim, centroids, data)
 {
+	var distance = 0;
 
-    // Initiate new centroids
-    var newCentroids = [];
-    var sampleCounter = [];
-    for (var i = 0; i < k; i++) {
-        var centroid = [];
-        for (var dim = 0; dim < dimensions; dim++) {
-            centroid[dim] = 0;
-        }
-        newCentroids[i] = centroid;
-        sampleCounter[i] = 0;
-    }
+		centroids.forEach( function(c, idx)
+		{
+			//console.log('Centroid: ' + idx);
+			data.forEach(function(d)
+			{
+				if(d.assignments == idx)
+				{
+					for( var i = 0 ; i < dim.length ; i++ ){
 
-    // Sum up the "positions" of all the samples belonging to the same cluster centroid
-    for (var sample = 0; sample < data.length; sample++)
-    {
-        var dimIdx = 0;
-        for (datapoint in data[sample])
-        {
-            newCentroids[assignments[sample]][dimIdx] += Number(data[sample][datapoint]);
-            sampleCounter[assignments[sample]]++;
-            dimIdx++;
-        }
-    }
+						distance += Math.pow(d[ dim[i] ] - c[ dim[i] ] , 2);
+					}
+				}
+			});
+		});
 
-    // Divide the previously created sum to get the average position of each centroid
-    for (centroid in newCentroids)
-    {
-        if (sampleCounter[centroid] != 0)
-            for (dim in newCentroids[centroid])
-            {
-                newCentroids[centroid][dim] /= sampleCounter[centroid];
-            }
-    }
-
-    return newCentroids;
+	return distance;
 }
 
 
-
-function calculateError(data, centroids, assignments)
+//asign each item to the cluster that has the closest centroid
+function assignClusters(dim, centroids, data)
 {
-    var quality = 0;
+	var nrOfCentroids = centroids.length;
+	var newDiff = 0;
+	var idx = 0;
+	var assignedData = [];
 
-    // Sum up the distance from each sample to its assigned centroid
-    for (var sample = 0; sample < data.length; sample++)
-    {
-        var dist = 0;
-        var dimIdx = 0;
-        for (datapoint in data[sample])
-        {
-            dist += Math.pow(data[sample][datapoint] - centroids[assignments[sample]][dimIdx], 2);
-            dimIdx++;
-        }
-        // Since the equation contains both a sqrt and ^2 and is already positive we can simply add it to the quality.
-        quality += dist;
-    }
+	data.forEach( function (d, j) {
 
-    return quality;
+		assignedData[j] = {};
+		var assignments = -1;
+		var totDiff = Number.MAX_VALUE;
+
+		//console.log("Tot pre check: " + totDiff);
+		for(i = 0; i < nrOfCentroids; i++)
+		{
+			newDiff = getEuclidianDistance(centroids[i], data[j], dim);
+
+				if(newDiff < totDiff){
+					totDiff = newDiff;
+					 assignments = i;
+					//console.log("assign: " + data.assignements);
+				}
+		}
+		if(assignedData[j]["assignments"] == -1 || assignedData[j]["assignments"] == null){
+				for(var currentDim = 0; currentDim < dim.length; currentDim++) {
+					assignedData[j][dim[currentDim]] = Number(d[dim[currentDim]]);
+		    }
+
+				assignedData[j]["assignments"] = assignments;
+		}
+	});
+
+	//console.log(assignedData);
+	return assignedData;
+
 }
+
+// Recalculate centroids to be in center of clusters
+function reCalcCentroid(theCentroids, theData, dim)
+{
+	var reCalcedCentr = [];
+	//var returnList = [];
+
+	theCentroids.forEach( function(c, idx)
+	{
+		//declarations
+		var avgDistance = {};
+		var numberOfLines = 0;
+
+		//init values in all dimensions to 0.
+		for( var i = 0 ; i < dim.length ; i++){
+			avgDistance[ dim[i] ] = 0;
+		}
+
+		//does data.assignements exist yet?	-> change to theData.assignments
+		theData.forEach( function(d) {
+
+				if(d.assignments == idx)
+				{
+					numberOfLines += 1;
+						for(var i = 0; i < dim.length ; i++){
+							avgDistance[dim[i]] += d[dim[i]];
+						}
+				}
+		});
+
+		for(var i = 0 ; i < dim.length ; i++){
+			avgDistance[ dim[i] ] /= numberOfLines;
+		}
+
+		reCalcedCentr.push(avgDistance);
+
+	});
+
+	//returnList = assignClusters(dim, reCalcedCentr, theData);
+
+	return reCalcedCentr;
+}
+
+// Euclidian distance between two points.
+  function getEuclidianDistance(centroid, point, dimension)
+  {
+    	var distance = 0;
+
+    	for(var i = 0 ; i < dimension.length ; i++ ){
+    		distance += Math.pow( point[dimension[i]] - centroid[dimension[i]], 2);
+    	}
+
+    	return Math.sqrt(distance);
+
+	}
+
+
+		//transform data to fit lab3
+		function transformData(data){
+
+			var transformData = [];
+			data.forEach(function(d)
+			{
+				transformData.push({
+					"depth" : +d.depth,
+					"mag" : +d.mag
+				});
+			})
+				return transformData;
+		}
+
+    // Since the console.log-function executes asynchroniously we wrote an own log-function to fix this.
+    function log(input, row)
+    {
+      var temp = input;
+      if(typeof(input) == "object")
+        temp = jQuery.extend(true, {}, input);
+      if(row != undefined)
+        console.log("Print no " + row + ":");
+      console.log(temp);
+    }
